@@ -58,6 +58,7 @@ class BusinessCardActivity : ComponentActivity() {
     }
 }
 
+//Business Card Information
 @Composable
 fun BusinessCard(
     name: String,
