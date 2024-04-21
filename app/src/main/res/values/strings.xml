@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ComposableProject</string>
+    <string name="title_activity_business_card">BusinessCardActivity</string>
 </resources>
