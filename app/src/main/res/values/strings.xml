@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ComposableProject</string>
     <string name="title_activity_business_card">BusinessCardActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="lbl_username">Username</string>
+    <string name="lbl_password">Password</string>
 </resources>
