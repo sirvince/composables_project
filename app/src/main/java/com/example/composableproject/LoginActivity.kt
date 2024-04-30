@@ -52,10 +52,10 @@ fun Navigation(){
         composable(Route.LoginScreen().name){
             LoginScreen(navController = navController)
         }
-        composable(Route.SignUpScreen().name){
+        composable(Route.PrivacyScreen().name){
             PrivacyScreen(navController = navController)
         }
-        composable(Route.SignUpScreen().name){
+        composable(Route.PolicyScreen().name){
             PolicyScreen(navController = navController)
         }
         composable(Route.SignUpScreen().name){
