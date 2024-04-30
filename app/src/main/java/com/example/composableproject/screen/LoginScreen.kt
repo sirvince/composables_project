@@ -32,7 +32,9 @@ import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
-import com.example.composableproject.ui.theme.Spacing
+import com.example.composableproject.route.Route
+import com.example.composableproject.ui.theme.DEFAULT_PADDING
+import com.example.composableproject.ui.theme.ITEM_SPACING
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -42,23 +44,21 @@ fun LoginScreen(navController: NavController) {
     val ( password , setPassword ) = rememberSaveable {
         mutableStateOf("")
     }
-
     val ( checked , onCheckedChange ) = rememberSaveable {
         mutableStateOf(false)
     }
-
     val context = LocalContext.current
 
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.DEFAULT_PADDING),
+            .padding(DEFAULT_PADDING),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         HeaderText(
             text = "Login",
             modifier = Modifier
-                .padding(vertical = Spacing.DEFAULT_PADDING)
+                .padding(vertical = DEFAULT_PADDING)
                 .align(alignment = Alignment.Start)
         )
 
@@ -70,7 +70,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(Spacing.ITEM_SPACING))
+        Spacer(Modifier.height(ITEM_SPACING))
 
         InputTextField(
             value = password,
@@ -82,7 +82,7 @@ fun LoginScreen(navController: NavController) {
             visualTransformation =  PasswordVisualTransformation()
         )
 
-        Spacer(Modifier.height(Spacing.ITEM_SPACING))
+        Spacer(Modifier.height(ITEM_SPACING))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -105,10 +105,10 @@ fun LoginScreen(navController: NavController) {
             }
         }
 
-        Spacer(Modifier.height(Spacing.ITEM_SPACING))
+        Spacer(Modifier.height(ITEM_SPACING))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(Route.SignUpScreen().name) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Login")

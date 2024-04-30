@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.composableproject.R
-import com.example.composableproject.ui.theme.Spacing
+import com.example.composableproject.ui.theme.ITEM_SPACING
 
 @Composable
 fun AlternativeLoginOptions(
@@ -48,9 +48,8 @@ fun AlternativeLoginOptions(
                         .clickable { onIconClick(index) }
                         .clip(CircleShape)
                 )
-                Spacer(Modifier.width(Spacing.ITEM_SPACING))
+                Spacer(Modifier.width(ITEM_SPACING))
             }
-
         }
 
         Row(
@@ -58,7 +57,7 @@ fun AlternativeLoginOptions(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "Don't have an account?")
-            Spacer(Modifier.height(Spacing.ITEM_SPACING))
+            Spacer(Modifier.height(ITEM_SPACING))
             TextButton(onClick = { /*TODO*/ }) {
                 Text(text = "Sign up")
             }
