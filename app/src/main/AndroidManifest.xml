@@ -18,20 +18,27 @@
             android:label="@string/title_activity_registration"
             android:theme="@style/Theme.ComposableProject" />
         <activity
-            android:name=".Login"
-            android:exported="false"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.ComposableProject" />
-        <activity
-            android:name=".BusinessCardActivity"
+            android:name=".LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_business_card"
+            android:label="@string/title_activity_login"
             android:theme="@style/Theme.ComposableProject" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".BusinessCardActivity"
+            android:exported="true"
+            android:label="@string/title_activity_business_card"
+            android:theme="@style/Theme.ComposableProject" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".MainActivity"
