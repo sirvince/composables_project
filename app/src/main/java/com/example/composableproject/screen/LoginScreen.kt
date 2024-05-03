@@ -19,6 +19,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -28,13 +29,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
 import com.example.composableproject.route.Route
+import com.example.composableproject.state.login.LoginFormEvent
 import com.example.composableproject.ui.theme.DEFAULT_PADDING
 import com.example.composableproject.ui.theme.ITEM_SPACING
+import com.example.composableproject.view_model.LoginViewModel
+import com.example.composableproject.view_model.RegistrationViewModel
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -47,7 +52,20 @@ fun LoginScreen(navController: NavController) {
     val ( checked , onCheckedChange ) = rememberSaveable {
         mutableStateOf(false)
     }
+
+    val viewModel = viewModel<LoginViewModel>()
+    val state = viewModel.state
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect{event ->
+            when(event){
+                LoginViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, "Login Success", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     Column (
         modifier = Modifier
@@ -65,6 +83,7 @@ fun LoginScreen(navController: NavController) {
         InputTextField(
             value = userName,
             onValueChange = setUsername,
+            errorMessage = state.usernameError,
             labelText = stringResource(R.string.lbl_username),
             leadingIcon = Icons.Default.Person,
             modifier = Modifier.fillMaxWidth()
@@ -75,6 +94,7 @@ fun LoginScreen(navController: NavController) {
         InputTextField(
             value = password,
             onValueChange = setPassword,
+            errorMessage = state.passwordError,
             labelText = stringResource(R.string.lbl_password),
             leadingIcon = Icons.Default.Lock,
             modifier = Modifier.fillMaxWidth(),
@@ -108,7 +128,7 @@ fun LoginScreen(navController: NavController) {
         Spacer(Modifier.height(ITEM_SPACING))
 
         Button(
-            onClick = { navController.navigate(Route.SignUpScreen().name) },
+            onClick = { viewModel.onEvent(LoginFormEvent.LoginValidation(userName,password))},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Login")

@@ -1,4 +1,4 @@
-package com.example.composableproject.state.login
+package com.example.composableproject.state.sign_up
 
 data class RegistrationFormState(
     val firstName : String = "",

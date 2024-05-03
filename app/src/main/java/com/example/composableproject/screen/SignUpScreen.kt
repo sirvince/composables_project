@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -29,55 +28,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
 import com.example.composableproject.route.Route
-import com.example.composableproject.state.login.RegistrationFormEvent
+import com.example.composableproject.state.sign_up.RegistrationFormEvent
 import com.example.composableproject.ui.theme.DEFAULT_PADDING
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.view_model.RegistrationViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController){
-    val ( firstName , onFirstNameChange ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val ( lastName , onLastNameChange ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val ( emailAddress , onEmailAddressChange ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val ( userName , setUsername ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val ( password , onPasswordChange ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val ( confirmPassword , onConfirmPasswordChange ) = rememberSaveable {
-        mutableStateOf("")
-    }
-
-
-    val ( agree , onAgreeChange ) = rememberSaveable {
-        mutableStateOf(false)
-    }
-
 
     val viewModel = viewModel<RegistrationViewModel>()
     val state = viewModel.state
@@ -110,7 +78,6 @@ fun SignUpScreen(navController: NavController){
         InputTextField(
             value = state.firstName,
             onValueChange = { viewModel.onEvent(RegistrationFormEvent.ValidateFirstName(it)) },
-            isError = state.firstNameError!=null,
             errorMessage = state.firstNameError,
             labelText = "First Name",
             leadingIcon = Icons.Default.Person,
@@ -122,7 +89,6 @@ fun SignUpScreen(navController: NavController){
         InputTextField(
             value = state.lastName,
             onValueChange = {viewModel.onEvent(RegistrationFormEvent.ValidateLastName(it)) },
-            isError = state.lastNameError!=null,
             errorMessage = state.lastNameError,
             labelText = "Last Name",
             leadingIcon = Icons.Default.Person,
@@ -136,7 +102,6 @@ fun SignUpScreen(navController: NavController){
             onValueChange = {
                 viewModel.onEvent(RegistrationFormEvent.EmailChanged(it))
             },
-            isError = state.emailError != null,
             errorMessage = state.emailError,
             labelText = "Email Address",
             leadingIcon = Icons.Default.Email,
@@ -148,7 +113,6 @@ fun SignUpScreen(navController: NavController){
         InputTextField(
             value = state.password,
             onValueChange = { viewModel.onEvent(RegistrationFormEvent.PasswordChanged(it)) },
-            isError = state.passwordError != null,
             errorMessage = state.passwordError,
             labelText = stringResource(R.string.lbl_password),
             leadingIcon = Icons.Default.Lock,
@@ -162,7 +126,6 @@ fun SignUpScreen(navController: NavController){
         InputTextField(
             value = state.confirmPassword,
             onValueChange = { viewModel.onEvent(RegistrationFormEvent.ConfirmPasswordChanged(it)) },
-            isError = state.confirmPasswordError != null,
             errorMessage =  state.confirmPasswordError,
             labelText = "Confirm Password",
             leadingIcon = Icons.Default.Lock,
