@@ -18,10 +18,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composableproject.route.Route
-import com.example.composableproject.screen.LoginScreen
+import com.example.composableproject.presentation.login.LoginScreen
 import com.example.composableproject.screen.PolicyScreen
 import com.example.composableproject.screen.PrivacyScreen
-import com.example.composableproject.screen.SignUpScreen
+import com.example.composableproject.presentation.sign_up.SignUpScreen
 import com.example.composableproject.screen.SplashScreen
 import com.example.composableproject.ui.theme.ComposableProjectTheme
 import dagger.hilt.android.AndroidEntryPoint

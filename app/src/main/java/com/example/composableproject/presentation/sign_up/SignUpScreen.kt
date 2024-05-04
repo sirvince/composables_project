@@ -1,4 +1,4 @@
-package com.example.composableproject.screen
+package com.example.composableproject.presentation.sign_up
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -21,8 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,29 +31,37 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
 import com.example.composableproject.route.Route
-import com.example.composableproject.state.sign_up.RegistrationFormEvent
 import com.example.composableproject.ui.theme.DEFAULT_PADDING
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.view_model.RegistrationViewModel
 
 @Composable
-fun SignUpScreen(navController: NavController){
+fun SignUpScreen(
+    navController: NavController,
+    viewModel: RegistrationViewModel = hiltViewModel()
+){
 
-    val viewModel = viewModel<RegistrationViewModel>()
     val state = viewModel.state
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect{ event ->
             when(event){
-                is RegistrationViewModel.ValidationEvent.Success ->{
-                    Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show()
+                is RegistrationViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+                    navController.navigate(Route.LoginScreen().name)
+                }
+                is RegistrationViewModel.ValidationEvent.Loading -> {
+                    Toast.makeText(context, "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is RegistrationViewModel.ValidationEvent.Error -> {
+                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -202,7 +208,9 @@ fun SignUpScreen(navController: NavController){
         ) {
             Text(text = "Already have an account?")
             Spacer(Modifier.height(ITEM_SPACING))
-            TextButton(onClick = { navController.navigate(Route.LoginScreen().name)}) {
+            TextButton(onClick = {
+                navController.navigate(Route.LoginScreen().name)}
+            ) {
                 Text(text = "Sign in")
             }
 

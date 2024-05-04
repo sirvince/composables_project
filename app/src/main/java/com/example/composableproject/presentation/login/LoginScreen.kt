@@ -1,4 +1,4 @@
-package com.example.composableproject.screen
+package com.example.composableproject.presentation.login
 
 import AlternativeLoginOptions
 import android.widget.Toast
@@ -28,19 +28,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
 import com.example.composableproject.route.Route
-import com.example.composableproject.state.login.LoginFormEvent
+import com.example.composableproject.presentation.login.LoginFormEvent
 import com.example.composableproject.ui.theme.DEFAULT_PADDING
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.view_model.LoginViewModel
-import com.example.composableproject.view_model.RegistrationViewModel
 
 @Composable
 fun LoginScreen(
@@ -57,8 +54,6 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
-//    val viewModel = viewModel<LoginViewModel>()
-//    val viewModel = hiltViewModel<LoginViewModel>()
     val state = viewModel.state
     val context = LocalContext.current
 
@@ -67,17 +62,13 @@ fun LoginScreen(
             when(event){
                 LoginViewModel.ValidationEvent.Success -> {
                     Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+                    navController.navigate(Route.SignUpScreen().name)
                 }
-
-
                 LoginViewModel.ValidationEvent.Loading -> {
-
-                    Toast.makeText(context, "Loading Success", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Loading...", Toast.LENGTH_LONG).show()
                 }
-
                 is LoginViewModel.ValidationEvent.Error -> {
-
-                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -156,14 +147,14 @@ fun LoginScreen(
                     index ->
                 when(index){
                     0 -> {
-                        Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
+                        Toast.makeText(context,"Soon google account", Toast.LENGTH_LONG).show()}
                     1 -> {
-                        Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
+                        Toast.makeText(context,"Soon facebook account", Toast.LENGTH_LONG).show()}
                     2 -> {
                         Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
                 }
             },
-            onSignUpClick = {},
+            onSignUpClick = { navController.navigate(Route.SignUpScreen().name)},
             modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.BottomCenter)

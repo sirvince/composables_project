@@ -5,16 +5,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composableproject.data.AuthRepository
+import com.example.composableproject.domain.use_case.respose.Response
 import com.example.composableproject.domain.use_case.validation.FieldFormat
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
-import com.example.composableproject.state.sign_up.RegistrationFormEvent
-import com.example.composableproject.state.sign_up.RegistrationFormState
+import com.example.composableproject.presentation.sign_up.RegistrationFormEvent
+import com.example.composableproject.presentation.sign_up.RegistrationFormState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegistrationViewModel(
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val validateAgreementTerm : ValidateAgreementTerm = ValidateAgreementTerm(),
     private val validateInputField: ValidateInputField = ValidateInputField()
 ) : ViewModel() {
@@ -102,12 +108,29 @@ class RegistrationViewModel(
         }
 
         viewModelScope.launch {
-            validationChannel.send(ValidationEvent.Success)
+
+            authRepository.registerUser(state.email,state.password).collect {result->
+                when(result){
+                    is Response.Error -> {
+                        result.message?.let { ValidationEvent.Error(it) }
+                            ?.let { validationChannel.send(it) }
+                    }
+                    is Response.Loading -> {
+                        validationChannel.send(ValidationEvent.Loading)
+                    }
+                    is Response.Success -> {
+                        validationChannel.send(ValidationEvent.Success)
+                    }
+                }
+
+            }
         }
     }
 
 
-    sealed class ValidationEvent {
-        object Success: ValidationEvent()
+    sealed class ValidationEvent{
+        data object Success : ValidationEvent()
+        data object Loading : ValidationEvent()
+        data class Error(val errorMessage: String) : ValidationEvent()
     }
 }

@@ -58,7 +58,7 @@ fun AlternativeLoginOptions(
         ) {
             Text(text = "Don't have an account?")
             Spacer(Modifier.height(ITEM_SPACING))
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = { onSignUpClick() }) {
                 Text(text = "Sign up")
             }
 

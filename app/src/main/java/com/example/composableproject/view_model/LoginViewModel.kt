@@ -1,17 +1,16 @@
 package com.example.composableproject.view_model
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composableproject.data.AuthRepository
-import com.example.composableproject.data.AuthRepositoryImpl
 import com.example.composableproject.domain.use_case.respose.Response
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
-import com.example.composableproject.state.login.LoginFormEvent
-import com.example.composableproject.state.login.LoginFormState
-import com.google.firebase.auth.FirebaseAuth
+import com.example.composableproject.presentation.login.LoginFormEvent
+import com.example.composableproject.presentation.login.LoginFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -19,7 +18,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val validateInputField: ValidateInputField = ValidateInputField()
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
@@ -44,55 +44,51 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onSubmitInformation(username : String ,password : String) {
-//        val usernameResult = validateInputField.execute(username)
-//        val passwordResult = validateInputField.execute(password)
+        val usernameResult = validateInputField.execute(username)
+        val passwordResult = validateInputField.execute(password)
 
-        val usernameResult = username
-        val passwordResult = password
+//        val usernameResult = username
+//        val passwordResult = password
 
-//        val formHasError = listOf(
-//            usernameResult, passwordResult
-//        ).any {
-//            !it.isSuccessful
-//        }
+        val formHasError = listOf(
+            usernameResult, passwordResult
+        ).any {
+            !it.isSuccessful
+        }
 
-//        if (formHasError) {
-//            state = state.copy(
-//                usernameError = usernameResult.errorMessage,
-//                passwordError = passwordResult.errorMessage
-//            )
-//            return
-//        }
+        if (formHasError) {
+            state = state.copy(
+                usernameError = usernameResult.errorMessage,
+                passwordError = passwordResult.errorMessage
+            )
+            return
+        }
 
         viewModelScope.launch {
-            repository.registerUser(username,password).collect{result ->
+            repository.loginUser(state.username,state.password).collect{ result ->
+                Log.v("viewModelScope", result.data.toString())
+                Log.v("viewModelScope", result.message.toString())
                 when(result){
                     is Response.Error -> {
-
-//                        validationChannel.send(ValidationEvent.Success)
-                        validationChannel.send(ValidationEvent.Error)
+                        result.message?.let { ValidationEvent.Error(it) }
+                            ?.let { validationChannel.send(it) }
                     }
                     is Response.Loading -> {
                         validationChannel.send(ValidationEvent.Loading)
-
                     }
                     is Response.Success -> {
                         validationChannel.send(ValidationEvent.Success)
-
                     }
                 }
-
             }
-
         }
-
     }
 
 
     sealed class ValidationEvent{
         data object Success : ValidationEvent()
         data object Loading : ValidationEvent()
-        data object Error: ValidationEvent()
+        data class Error(val errorMessage: String) : ValidationEvent()
     }
 
 }
