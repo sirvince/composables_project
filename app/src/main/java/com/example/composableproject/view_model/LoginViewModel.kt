@@ -5,15 +5,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composableproject.data.AuthRepository
+import com.example.composableproject.data.AuthRepositoryImpl
+import com.example.composableproject.domain.use_case.respose.Response
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
 import com.example.composableproject.state.login.LoginFormEvent
 import com.example.composableproject.state.login.LoginFormState
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-
-class LoginViewModel(
-    private val validateInputField: ValidateInputField = ValidateInputField()
+import javax.inject.Inject
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
@@ -38,32 +44,55 @@ class LoginViewModel(
     }
 
     private fun onSubmitInformation(username : String ,password : String) {
-        val usernameResult = validateInputField.execute(username)
-        val passwordResult = validateInputField.execute(password)
+//        val usernameResult = validateInputField.execute(username)
+//        val passwordResult = validateInputField.execute(password)
 
-        val formHasError = listOf(
-            usernameResult, passwordResult
-        ).any {
-            !it.isSuccessful
-        }
+        val usernameResult = username
+        val passwordResult = password
 
-        if (formHasError) {
-            state = state.copy(
-                usernameError = usernameResult.errorMessage,
-                passwordError = passwordResult.errorMessage
-            )
-            return
-        }
+//        val formHasError = listOf(
+//            usernameResult, passwordResult
+//        ).any {
+//            !it.isSuccessful
+//        }
+
+//        if (formHasError) {
+//            state = state.copy(
+//                usernameError = usernameResult.errorMessage,
+//                passwordError = passwordResult.errorMessage
+//            )
+//            return
+//        }
 
         viewModelScope.launch {
-            validationChannel.send(ValidationEvent.Success)
+            repository.registerUser(username,password).collect{result ->
+                when(result){
+                    is Response.Error -> {
+
+//                        validationChannel.send(ValidationEvent.Success)
+                        validationChannel.send(ValidationEvent.Error)
+                    }
+                    is Response.Loading -> {
+                        validationChannel.send(ValidationEvent.Loading)
+
+                    }
+                    is Response.Success -> {
+                        validationChannel.send(ValidationEvent.Success)
+
+                    }
+                }
+
+            }
+
         }
 
     }
 
 
     sealed class ValidationEvent{
-        object Success : ValidationEvent()
+        data object Success : ValidationEvent()
+        data object Loading : ValidationEvent()
+        data object Error: ValidationEvent()
     }
 
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
@@ -42,7 +43,10 @@ import com.example.composableproject.view_model.LoginViewModel
 import com.example.composableproject.view_model.RegistrationViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+    ) {
     val ( userName , setUsername ) = rememberSaveable {
         mutableStateOf("")
     }
@@ -53,7 +57,8 @@ fun LoginScreen(navController: NavController) {
         mutableStateOf(false)
     }
 
-    val viewModel = viewModel<LoginViewModel>()
+//    val viewModel = viewModel<LoginViewModel>()
+//    val viewModel = hiltViewModel<LoginViewModel>()
     val state = viewModel.state
     val context = LocalContext.current
 
@@ -61,7 +66,18 @@ fun LoginScreen(navController: NavController) {
         viewModel.validationEvents.collect{event ->
             when(event){
                 LoginViewModel.ValidationEvent.Success -> {
-                    Toast.makeText(context, "Login Success", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+                }
+
+
+                LoginViewModel.ValidationEvent.Loading -> {
+
+                    Toast.makeText(context, "Loading Success", Toast.LENGTH_LONG).show()
+                }
+
+                is LoginViewModel.ValidationEvent.Error -> {
+
+                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
                 }
             }
         }

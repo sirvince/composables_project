@@ -24,7 +24,9 @@ import com.example.composableproject.screen.PrivacyScreen
 import com.example.composableproject.screen.SignUpScreen
 import com.example.composableproject.screen.SplashScreen
 import com.example.composableproject.ui.theme.ComposableProjectTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
                     Navigation()
                 }
             }
@@ -44,6 +47,7 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun Navigation(){
+
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Route.SplashScreen().name){
         composable(Route.SplashScreen().name){
