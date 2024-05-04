@@ -1,27 +1,26 @@
 package com.example.composableproject.view_model
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composableproject.domain.use_case.validation.FIELD_FORMAT
+import com.example.composableproject.data.AuthRepository
+import com.example.composableproject.domain.use_case.respose.Response
+import com.example.composableproject.domain.use_case.validation.FieldFormat
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
-import com.example.composableproject.domain.use_case.validation.ValidateConfirmPassword
-import com.example.composableproject.domain.use_case.validation.ValidateEmail
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
-import com.example.composableproject.domain.use_case.validation.ValidatePassword
-import com.example.composableproject.state.login.RegistrationFormEvent
-import com.example.composableproject.state.login.RegistrationFormState
+import com.example.composableproject.presentation.sign_up.RegistrationFormEvent
+import com.example.composableproject.presentation.sign_up.RegistrationFormState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegistrationViewModel(
-    private val validateEmail: ValidateEmail = ValidateEmail(),
-    private val validatePassword: ValidatePassword = ValidatePassword(),
-    private val validateConfirmPassword: ValidateConfirmPassword = ValidateConfirmPassword(),
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val validateAgreementTerm : ValidateAgreementTerm = ValidateAgreementTerm(),
     private val validateInputField: ValidateInputField = ValidateInputField()
 ) : ViewModel() {
@@ -33,12 +32,13 @@ class RegistrationViewModel(
 
 
     fun onEvent(event: RegistrationFormEvent){
-       Log.v("onEvent TEST ",event.toString())
         when(event){
-
-//            is RegistrationFormEvent.ValidateInputField -> {
-//                state = state.copy(event.firstName)
-//            }
+            is RegistrationFormEvent.ValidateFirstName -> {
+                state = state.copy(firstName =  event.firstName)
+            }
+            is RegistrationFormEvent.ValidateLastName -> {
+                state = state.copy(lastName = event.lastName)
+            }
             is RegistrationFormEvent.EmailChanged -> {
                 state = state.copy(email = event.email)
             }
@@ -54,16 +54,7 @@ class RegistrationViewModel(
             is RegistrationFormEvent.Submit -> {
                 submitData()
             }
-
-            is RegistrationFormEvent.ValidateFirstName -> {
-                state = state.copy(firstName =  event.firstName)
-            }
-
-            is RegistrationFormEvent.ValidateLastName -> {
-
-                state = state.copy(lastName = event.lastName)
-            }
-
+            else -> {}
         }
     }
 
@@ -78,17 +69,18 @@ class RegistrationViewModel(
 
         val emailResult = validateInputField.execute(
             state.email,
-            format = FIELD_FORMAT.EMAIL.toString()
+            textFormat = FieldFormat.EMAIL
         )
 
         val passwordResult = validateInputField.execute(
             state.password
         )
 
-        val confirmPasswordResult = validateConfirmPassword.execute(
+        val confirmPasswordResult = validateInputField.execute(
             state.password,
-            state.confirmPassword
+            confirmPassword = state.confirmPassword
         )
+
         val agreementTermResult = validateAgreementTerm.execute(state.agreementTerm)
 
 
@@ -116,12 +108,29 @@ class RegistrationViewModel(
         }
 
         viewModelScope.launch {
-            validationChannel.send(ValidationEvent.Success)
+
+            authRepository.registerUser(state.email,state.password).collect {result->
+                when(result){
+                    is Response.Error -> {
+                        result.message?.let { ValidationEvent.Error(it) }
+                            ?.let { validationChannel.send(it) }
+                    }
+                    is Response.Loading -> {
+                        validationChannel.send(ValidationEvent.Loading)
+                    }
+                    is Response.Success -> {
+                        validationChannel.send(ValidationEvent.Success)
+                    }
+                }
+
+            }
         }
     }
 
 
-    sealed class ValidationEvent {
-        object Success: ValidationEvent()
+    sealed class ValidationEvent{
+        data object Success : ValidationEvent()
+        data object Loading : ValidationEvent()
+        data class Error(val errorMessage: String) : ValidationEvent()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.composableproject.screen
+package com.example.composableproject.presentation.login
 
 import AlternativeLoginOptions
 import android.widget.Toast
@@ -19,6 +19,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -27,17 +28,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.HeaderText
 import com.example.composableproject.component.InputTextField
 import com.example.composableproject.route.Route
+import com.example.composableproject.presentation.login.LoginFormEvent
 import com.example.composableproject.ui.theme.DEFAULT_PADDING
 import com.example.composableproject.ui.theme.ITEM_SPACING
+import com.example.composableproject.view_model.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+    ) {
     val ( userName , setUsername ) = rememberSaveable {
         mutableStateOf("")
     }
@@ -47,7 +53,26 @@ fun LoginScreen(navController: NavController) {
     val ( checked , onCheckedChange ) = rememberSaveable {
         mutableStateOf(false)
     }
+
+    val state = viewModel.state
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect{event ->
+            when(event){
+                LoginViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+                    navController.navigate(Route.SignUpScreen().name)
+                }
+                LoginViewModel.ValidationEvent.Loading -> {
+                    Toast.makeText(context, "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is LoginViewModel.ValidationEvent.Error -> {
+                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     Column (
         modifier = Modifier
@@ -65,6 +90,7 @@ fun LoginScreen(navController: NavController) {
         InputTextField(
             value = userName,
             onValueChange = setUsername,
+            errorMessage = state.usernameError,
             labelText = stringResource(R.string.lbl_username),
             leadingIcon = Icons.Default.Person,
             modifier = Modifier.fillMaxWidth()
@@ -75,6 +101,7 @@ fun LoginScreen(navController: NavController) {
         InputTextField(
             value = password,
             onValueChange = setPassword,
+            errorMessage = state.passwordError,
             labelText = stringResource(R.string.lbl_password),
             leadingIcon = Icons.Default.Lock,
             modifier = Modifier.fillMaxWidth(),
@@ -108,7 +135,7 @@ fun LoginScreen(navController: NavController) {
         Spacer(Modifier.height(ITEM_SPACING))
 
         Button(
-            onClick = { navController.navigate(Route.SignUpScreen().name) },
+            onClick = { viewModel.onEvent(LoginFormEvent.LoginValidation(userName,password))},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Login")
@@ -120,14 +147,14 @@ fun LoginScreen(navController: NavController) {
                     index ->
                 when(index){
                     0 -> {
-                        Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
+                        Toast.makeText(context,"Soon google account", Toast.LENGTH_LONG).show()}
                     1 -> {
-                        Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
+                        Toast.makeText(context,"Soon facebook account", Toast.LENGTH_LONG).show()}
                     2 -> {
                         Toast.makeText(context,"Soon", Toast.LENGTH_LONG).show()}
                 }
             },
-            onSignUpClick = {},
+            onSignUpClick = { navController.navigate(Route.SignUpScreen().name)},
             modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.BottomCenter)

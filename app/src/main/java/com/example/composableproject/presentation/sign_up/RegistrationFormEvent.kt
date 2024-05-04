@@ -1,4 +1,4 @@
-package com.example.composableproject.state.login
+package com.example.composableproject.presentation.sign_up
 
 sealed class RegistrationFormEvent {
     data class ValidateFirstName(val firstName : String) : RegistrationFormEvent()

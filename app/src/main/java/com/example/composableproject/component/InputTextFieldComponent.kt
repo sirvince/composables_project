@@ -21,7 +21,6 @@ fun InputTextField(
     modifier : Modifier = Modifier,
     value : String,
     onValueChange : (String) -> Unit,
-    isError : Boolean = false,
     errorMessage : String? = null,
     labelText : String,
     leadingIcon : ImageVector? = null,
@@ -33,7 +32,7 @@ fun InputTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        isError = isError,
+        isError = errorMessage != null,
         label = {
             Text(labelText)
         },
@@ -46,7 +45,7 @@ fun InputTextField(
         shape = RoundedCornerShape(30)
     )
 
-    if(isError){
+    if(errorMessage!=null){
         errorMessage?.let {
             Text(
                 text = it,
