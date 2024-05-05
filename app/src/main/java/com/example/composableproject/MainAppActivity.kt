@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composableproject.route.Route
 import com.example.composableproject.presentation.login.LoginScreen
+import com.example.composableproject.presentation.menu.MenuScreen
 import com.example.composableproject.screen.PolicyScreen
 import com.example.composableproject.screen.PrivacyScreen
 import com.example.composableproject.presentation.sign_up.SignUpScreen
@@ -49,7 +50,10 @@ class LoginActivity : ComponentActivity() {
 fun Navigation(){
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Route.SplashScreen().name){
+    NavHost(navController = navController, startDestination = Route.MenuScree().name){
+        composable(Route.MenuScree().name){
+            MenuScreen(navController = navController)
+        }
         composable(Route.SplashScreen().name){
             SplashScreen(navController = navController)
         }
