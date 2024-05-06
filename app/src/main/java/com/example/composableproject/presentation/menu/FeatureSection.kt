@@ -9,9 +9,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun FeatureSection(features : List<Feature>){
+fun FeatureSection(
+    navController: NavController,
+    features : List<Feature>
+){
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -22,7 +26,10 @@ fun FeatureSection(features : List<Feature>){
             modifier = Modifier.fillMaxHeight()
         ) {
             items(features.size) {
-                FeatureItem(feature = features[it])
+                FeatureItem(
+                    navController,
+                    feature = features[it]
+                )
             }
         }
     }

@@ -21,6 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.composableproject.R
 import com.example.composableproject.ui.theme.ITEM_SPACING
+import com.example.composableproject.ui.theme.PrimaryColor
+import com.example.composableproject.ui.theme.SecondaryColor
 
 @Composable
 fun AccountHeaderSection(
@@ -35,16 +37,14 @@ fun AccountHeaderSection(
             .padding(32.dp)
     ) {
 
-
-
         Row(
-//            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.Absolute.Center,
             verticalAlignment = Alignment.CenterVertically,
         ){
             Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Search",
-                modifier = Modifier.size(50.dp)
+                painter = painterResource(R.drawable.ic_user_profile),
+                contentDescription = "user profile",
+                modifier = Modifier.size(32.dp)
             )
             Spacer(Modifier.width(ITEM_SPACING))
 
@@ -58,7 +58,7 @@ fun AccountHeaderSection(
                 Spacer(Modifier.height(ITEM_SPACING))
                 Text(
                     text = account.firstName,
-                    style = MaterialTheme.typography.displayMedium
+                    style = MaterialTheme.typography.displaySmall
                 )
                 Text(
                     text = account.role,
@@ -70,6 +70,7 @@ fun AccountHeaderSection(
         Icon(
             painter = painterResource(id = R.drawable.ic_logout),
             contentDescription = "Search",
+            tint = SecondaryColor ,
             modifier = Modifier.size(24.dp)
         )
     }

@@ -7,5 +7,6 @@ sealed class Route {
     data class PrivacyScreen(val name: String = "Privacy Screen") : Route()
     data class PolicyScreen(val name: String = "Policy Screen") : Route()
 
-    data class MenuScree(val name: String = "Menu Screen") : Route()
+    data class MenuScreen(val name: String = "Menu Screen") : Route()
+    data class MemberListScreen(val name: String = "Member List Screen") : Route()
 }
