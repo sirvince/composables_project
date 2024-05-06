@@ -5,13 +5,21 @@ import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.composableproject.R
+import com.example.composableproject.route.Route
+import com.example.composableproject.ui.theme.ITEM_SPACING
+import com.example.composableproject.ui.theme.PrimaryColor
+import com.example.composableproject.ui.theme.SecondaryColor
+import com.example.composableproject.ui.theme.TertiaryColor
 
 
 @Composable
@@ -24,36 +32,30 @@ fun MenuScreen(
             .fillMaxSize()
     ) {
         Column {
+            Spacer(Modifier.height(ITEM_SPACING))
             AccountHeaderSection(account = Account("John Vincent","Assistant Secretary"))
-            FeatureSection(
+            Spacer(Modifier.height(ITEM_SPACING))
+            FeatureSection(navController,
                 features = listOf(
                     Feature(
-                        title = "Sleep meditation",
-                        R.drawable.ic_launcher_foreground,
-                        Color.Blue,
-                        Color.Blue,
-                        Color.Blue,
+                        title = stringResource(R.string.member_list),
+                        destination = Route.MemberListScreen().name,
+                        R.drawable.ic_member
                     ),
                     Feature(
-                        title = "Tips for sleeping",
-                        R.drawable.ic_launcher_foreground,
-                        Color.Blue,
-                        Color.Blue,
-                        Color.Blue,
+                        title = "Soon",
+                        destination = Route.LoginScreen().name,
+                        R.drawable.ic_launcher_foreground
                     ),
                     Feature(
-                        title = "Night island",
-                        R.drawable.ic_launcher_foreground,
-                        Color.Blue,
-                        Color.Blue,
-                        Color.Blue,
+                        title = "Soon",
+                        destination = Route.LoginScreen().name,
+                        R.drawable.ic_launcher_foreground
                     ),
                     Feature(
-                        title = "Calming sounds",
-                        R.drawable.ic_launcher_foreground,
-                        Color.Blue,
-                        Color.Blue,
-                        Color.Blue,
+                        title = "Soon",
+                        destination = Route.LoginScreen().name,
+                        R.drawable.ic_launcher_foreground
                     )
                 )
             )

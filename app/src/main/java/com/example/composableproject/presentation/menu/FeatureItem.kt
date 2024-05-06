@@ -5,8 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -23,17 +26,27 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.composableproject.ui.theme.DEFAULT_PADDING
+import com.example.composableproject.ui.theme.ITEM_SPACING
 
 @Composable
 fun FeatureItem(
+    navController : NavController,
     feature: Feature
 ) {
-    BoxWithConstraints(
-        modifier = Modifier
-            .padding(7.5.dp)
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(10.dp))
-            .background(feature.darkColor)
+    feature.darkColor?.let {
+        Modifier
+            .padding(8.dp)
+            .aspectRatio(1.5f)
+            .clip(RoundedCornerShape(8.dp))
+            .background(it)
+            .clickable {navController.navigate(feature.destination)  }
+    }?.let {
+        BoxWithConstraints(
+        modifier = it
+
+
     ) {
         val width = constraints.maxWidth
         val height = constraints.maxHeight
@@ -77,46 +90,47 @@ fun FeatureItem(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            drawPath(
-                path = mediumColoredPath,
-                color = feature.mediumColor
-            )
-            drawPath(
-                path = lightColoredPath,
-                color = feature.lightColor
-            )
+            feature.mediumColor?.let { it1 ->
+                drawPath(
+                    path = mediumColoredPath,
+                    color = it1
+                )
+            }
+            feature.lightColor?.let { it1 ->
+                drawPath(
+                    path = lightColoredPath,
+                    color = it1
+                )
+            }
         }
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(15.dp)
+                .padding(DEFAULT_PADDING)
         ) {
-            Text(
-                text = feature.title,
-                style = MaterialTheme.typography.displaySmall,
-                lineHeight = 26.sp,
-                modifier = Modifier.align(Alignment.TopStart)
-            )
             Icon(
                 painter = painterResource(id = feature.iconId),
                 contentDescription = feature.title,
                 tint = Color.White,
-                modifier = Modifier.align(Alignment.BottomStart)
+                modifier = Modifier.align(Alignment.Center)
             )
+
+
             Text(
-                text = "Start",
-//                color = TextWhite,
-                fontSize = 14.sp,
+                text = feature.title,
+                color = Color.White,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .clickable {
-                        // Handle the click
-                    }
-                    .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomCenter)
                     .clip(RoundedCornerShape(10.dp))
-//                    .background(ButtonBlue)
-                    .padding(vertical = 6.dp, horizontal = 15.dp)
+                    .padding(vertical =  1.dp, horizontal = 15.dp)
             )
         }
+
+
+    }
+
+
     }
 }

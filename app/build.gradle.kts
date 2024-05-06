@@ -61,17 +61,17 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.auth)
-//    implementation(libs.dagger.hilt)
-//    implementation(libs.dagger.nav)
-//    kapt("androidx.hilt:hilt-compiler:1.2.0")
-//    kapt("com.google.dagger:hilt-android-compiler:2.49")
 
     //Dagger-Hilt
     implementation ("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.49")
-//    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:2.31")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    implementation (libs.gson) // Use the latest version
+    implementation (libs.converter.gson) // Use the latest version
+    implementation (libs.logging.interceptor) // Use the latest version
 
 
     testImplementation(libs.junit)
