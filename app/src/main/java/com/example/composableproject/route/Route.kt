@@ -9,4 +9,6 @@ sealed class Route {
 
     data class MenuScreen(val name: String = "Menu Screen") : Route()
     data class MemberListScreen(val name: String = "Member List Screen") : Route()
+
+    data class MemberProfileScreen(val name: String = "Member Profile Screen") : Route()
 }

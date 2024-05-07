@@ -1,11 +1,9 @@
 package com.example.composableproject.presentation.member
 
-import android.util.Log
-import android.widget.Space
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -59,7 +56,6 @@ fun MemberListScreen(
 
 
     Scaffold(
-//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MediumTopAppBar(
                 colors = topAppBarColors(
@@ -94,21 +90,9 @@ fun MemberListScreen(
                         )
                     }
                 },
-//                scrollBehavior = scrollBehavior
             )
         },
-        bottomBar = {
-//            BottomAppBar(
-//                containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                contentColor = MaterialTheme.colorScheme.primary,
-//            ) {
-//                Text(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    textAlign = TextAlign.Center,
-//                    text = "Bottom app bar",
-//                )
-//            }
-        },
+        bottomBar = {},
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {  },
@@ -134,7 +118,7 @@ fun MemberListScreen(
                 onValueChange = setSearch,
                 labelText = "Search name",
                 leadingIcon = Icons.Default.Search,
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
 
 
@@ -145,7 +129,8 @@ fun MemberListScreen(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 items(SampleData.personList.size) { index ->
-                    PuppyListItem(
+                    MemberListItem(
+                        navController,
                         member = SampleData.personList[index]
                     )
                 }

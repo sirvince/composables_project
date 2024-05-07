@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.composableproject.route.Route
 import com.example.composableproject.presentation.login.LoginScreen
 import com.example.composableproject.presentation.member.MemberListScreen
+import com.example.composableproject.presentation.member_profile.MemberProfile
 import com.example.composableproject.presentation.menu.MenuScreen
 import com.example.composableproject.screen.PolicyScreen
 import com.example.composableproject.screen.PrivacyScreen
@@ -54,6 +55,10 @@ fun Navigation(){
     NavHost(navController = navController, startDestination = Route.MenuScreen().name){
         composable(Route.MenuScreen().name){
             MenuScreen(navController = navController)
+        }
+
+        composable(Route.MemberProfileScreen().name){
+            MemberProfile(navController = navController)
         }
 
         composable(Route.MemberListScreen().name){
