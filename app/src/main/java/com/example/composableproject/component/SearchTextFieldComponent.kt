@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun InputTextField(
+fun SearchInputTextField(
     modifier : Modifier = Modifier,
     value : String,
     onValueChange : (String) -> Unit,
@@ -50,6 +50,10 @@ fun InputTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         visualTransformation = visualTransformation,
         shape = RoundedCornerShape(30),
+        singleLine = true,
+        keyboardActions = KeyboardActions(
+            onDone = { focusRequester.requestFocus() }
+        ),
     )
 
     if(errorMessage!=null){
