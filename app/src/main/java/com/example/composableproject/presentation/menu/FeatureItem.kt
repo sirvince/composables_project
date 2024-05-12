@@ -86,23 +86,23 @@ fun FeatureItem(
             lineTo(-100f, height.toFloat() + 100f)
             close()
         }
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            feature.mediumColor?.let { it1 ->
-                drawPath(
-                    path = mediumColoredPath,
-                    color = it1
-                )
-            }
-            feature.lightColor?.let { it1 ->
-                drawPath(
-                    path = lightColoredPath,
-                    color = it1
-                )
-            }
-        }
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        ) {
+//            feature.mediumColor?.let { it1 ->
+//                drawPath(
+//                    path = mediumColoredPath,
+//                    color = it1
+//                )
+//            }
+//            feature.lightColor?.let { it1 ->
+//                drawPath(
+//                    path = lightColoredPath,
+//                    color = it1
+//                )
+//            }
+//        }
         Box(
             modifier = Modifier
                 .fillMaxSize()

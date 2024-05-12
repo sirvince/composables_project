@@ -123,7 +123,7 @@ fun MemberListScreen(
             SearchInputTextField(
                 value = search,
                 onValueChange = setSearch,
-                labelText = "Search reference code,brand,product...",
+                labelText = "Search application using reference code,brand,product...",
                 leadingIcon = Icons.Default.Search,
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             )

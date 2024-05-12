@@ -33,7 +33,7 @@ object SampleData {
                 "brand" : "HUAWEI",
                 "product" : "HUAWEI SMARTWATCH",
                 "internalStatus" : "DECISION FORM HAS BEEN SENT",
-                "releaseStatus" : "DISAPPROVED"
+                "releaseStatus" : "INCOMPLETE"
             },{
                 "id": 1, 
                 "formType": "S2", 
@@ -42,7 +42,7 @@ object SampleData {
                 "brand" : "HUAWEI",
                 "product" : "HUAWEI SMARTWATCH",
                 "internalStatus" : "DECISION FORM HAS BEEN SENT",
-                "releaseStatus" : "DISAPPROVED"
+                "releaseStatus" : "APPROVED"
             },{
                 "id": 1, 
                 "formType": "S1", 
@@ -51,7 +51,7 @@ object SampleData {
                 "brand" : "HUAWEI",
                 "product" : "HUAWEI SMARTWATCH",
                 "internalStatus" : "DECISION FORM HAS BEEN SENT",
-                "releaseStatus" : "DISAPPROVED"
+                "releaseStatus" : "APPROVED WITH CAUTION"
             },{
                 "id": 1, 
                 "formType": "S2", 

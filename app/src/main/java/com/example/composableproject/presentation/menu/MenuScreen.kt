@@ -70,7 +70,7 @@ fun MenuScreen(
             ){
 
                 Text(
-                    text = "Monitoring",
+                    text = "Features",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
