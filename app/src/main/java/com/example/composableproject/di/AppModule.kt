@@ -3,15 +3,26 @@ package com.example.composableproject.di
 
 import android.app.Application
 import android.util.Log
-import com.example.composableproject.data.AuthRepository
-import com.example.composableproject.data.AuthRepositoryImpl
+import com.example.composableproject.BuildConfig
+import com.example.composableproject.data.remote.AuthRepository
+import com.example.composableproject.data.remote.AuthRepositoryImpl
+import com.example.composableproject.data.remote.LoginRepositoryImpl
+import com.example.composableproject.data.remote.LoginService
+import com.example.composableproject.domain.use_case.LoginUseCase
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
+
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -30,6 +41,54 @@ object AppModule {
         Log.v("AppModule","test")
         return AuthRepositoryImpl(firebaseAuth,appContext)
     }
+
+
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val okHttpBuilder = OkHttpClient.Builder()
+            . protocols(listOf(Protocol.HTTP_1_1))
+            .readTimeout(40, TimeUnit.SECONDS)
+            .connectTimeout(40, TimeUnit.SECONDS)
+            .followRedirects(false) // Disable automatic redirection
+            .addInterceptor(httpLoggingInterceptor)
+            .retryOnConnectionFailure(true)
+            .build()
+
+
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpBuilder)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesLoginService(retrofit: Retrofit) : LoginService{
+        return retrofit.create(LoginService::class.java)
+    }
+
+
+    @Provides
+    fun provideLoginUseCase(loginRepository: LoginRepositoryImpl): LoginUseCase {
+        return LoginUseCase(loginRepository)
+    }
+
+//    @Provides
+//    @Singleton
+//    fun providesLoginRepositoryImpl(loginService: LoginService) : LoginService{
+//        return LoginRepositoryImpl(loginService)
+//    }
+
+
+
+
+
 
     @Provides
     @Singleton

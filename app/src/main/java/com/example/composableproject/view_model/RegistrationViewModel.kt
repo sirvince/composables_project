@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composableproject.data.AuthRepository
-import com.example.composableproject.domain.use_case.respose.Response
+import com.example.composableproject.data.remote.AuthRepository
+import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.example.composableproject.domain.use_case.validation.FieldFormat
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
@@ -111,14 +111,14 @@ class RegistrationViewModel @Inject constructor(
 
             authRepository.registerUser(state.email,state.password).collect {result->
                 when(result){
-                    is Response.Error -> {
+                    is AppResponse.Error -> {
                         result.message?.let { ValidationEvent.Error(it) }
                             ?.let { validationChannel.send(it) }
                     }
-                    is Response.Loading -> {
+                    is AppResponse.Loading -> {
                         validationChannel.send(ValidationEvent.Loading)
                     }
-                    is Response.Success -> {
+                    is AppResponse.Success -> {
                         validationChannel.send(ValidationEvent.Success)
                     }
                 }

@@ -5,7 +5,7 @@ import android.util.Patterns
 
 class ValidateInputField {
 
-    private val minimumLength  = 8
+    private val minimumLength  = 1
 
     fun execute(
         text : String,
