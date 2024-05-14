@@ -3,6 +3,7 @@ package com.example.composableproject.data.remote
 import android.util.Log
 import com.example.composableproject.data.dto.CredentialDto
 import com.example.composableproject.data.model.LoginResponse
+import com.example.composableproject.data.model.UserInfo
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.util.Objects
 
 class LoginRepositoryImpl @Inject constructor (private val loginService : LoginService) : LoginService {
 
@@ -22,8 +24,9 @@ class LoginRepositoryImpl @Inject constructor (private val loginService : LoginS
 
     }
 
-
-
+    override suspend fun fetchUserDetails(): Response<UserInfo> {
+        return loginService.fetchUserDetails()
+    }
 
 
 }

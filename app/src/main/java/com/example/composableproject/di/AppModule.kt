@@ -2,8 +2,10 @@ package com.example.composableproject.di
 
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import com.example.composableproject.BuildConfig
+import com.example.composableproject.SharedPreferencesManager
 import com.example.composableproject.data.remote.AuthRepository
 import com.example.composableproject.data.remote.AuthRepositoryImpl
 import com.example.composableproject.data.remote.LoginRepositoryImpl
@@ -17,6 +19,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,9 +49,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideSharedPreferencesManager( context: Application): SharedPreferencesManager {
+        return SharedPreferencesManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(sharedPreferencesManager: SharedPreferencesManager): Retrofit {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+
+        val token = sharedPreferencesManager.getToken()
+        Log.v("LoginUseCase",token.toString())
+        val authInterceptor = Interceptor { chain ->
+            val original = chain.request()
+            val requestBuilder = original.newBuilder()
+            requestBuilder.header("Authorization", "Bearer $token")
+            val request = requestBuilder.build()
+            chain.proceed(request)
+        }
 
         val okHttpBuilder = OkHttpClient.Builder()
             . protocols(listOf(Protocol.HTTP_1_1))
@@ -56,6 +76,7 @@ object AppModule {
             .connectTimeout(40, TimeUnit.SECONDS)
             .followRedirects(false) // Disable automatic redirection
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authInterceptor) // Add the authorization interceptor
             .retryOnConnectionFailure(true)
             .build()
 
@@ -75,9 +96,12 @@ object AppModule {
 
 
     @Provides
-    fun provideLoginUseCase(loginRepository: LoginRepositoryImpl): LoginUseCase {
-        return LoginUseCase(loginRepository)
+    fun provideLoginUseCase(loginRepository: LoginRepositoryImpl,sharedPreferencesManager: SharedPreferencesManager): LoginUseCase {
+        return LoginUseCase(loginRepository,sharedPreferencesManager)
     }
+
+
+
 
 //    @Provides
 //    @Singleton

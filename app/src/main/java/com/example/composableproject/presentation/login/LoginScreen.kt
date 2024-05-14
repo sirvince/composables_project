@@ -1,6 +1,7 @@
 package com.example.composableproject.presentation.login
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -74,7 +75,15 @@ fun LoginScreen(
             when(event){
                 LoginViewModel.ValidationEvent.Success -> {
                     isLoading = false
-                    navController.navigate(Route.SignUpScreen().name)
+                    navController.navigate(Route.MenuScreen().name){
+                        popUpTo(Route.LoginScreen().name){
+                            inclusive = true
+                        }
+                    }
+
+
+                    //connect again into api to get the information
+
                 }
                 LoginViewModel.ValidationEvent.Loading -> {
                     isLoading = true
@@ -187,5 +196,6 @@ fun LoginScreen(
             Text(text = "Login")
         }
     }
+
 }
 

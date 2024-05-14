@@ -1,10 +1,13 @@
 package com.example.composableproject.presentation.login
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composableproject.data.model.LoginResponse
 import com.example.composableproject.domain.use_case.LoginUseCase
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.example.composableproject.domain.use_case.validation.FieldFormat
@@ -21,9 +24,7 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
-
     private  val validationChannel  = Channel<ValidationEvent>()
-
     val validationEvents = validationChannel.receiveAsFlow()
 
     fun onEvent(event: LoginFormEvent){
@@ -33,10 +34,6 @@ class LoginViewModel @Inject constructor(
                 onSubmitInformation(state.username  ,state.password)
             }
 
-            LoginFormEvent.Submit -> {
-//                onSubmitInformation()
-
-            }
         }
     }
 
@@ -82,6 +79,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+
+    private fun onFetchInformation(loginResponse: LoginResponse) {
+        viewModelScope.launch {
+
+        }
+
+    }
 
     sealed class ValidationEvent{
         data object Success : ValidationEvent()
