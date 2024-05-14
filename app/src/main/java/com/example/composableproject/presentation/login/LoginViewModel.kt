@@ -1,19 +1,14 @@
-package com.example.composableproject.view_model
+package com.example.composableproject.presentation.login
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composableproject.domain.use_case.LoginUseCase
 import com.example.composableproject.domain.use_case.respose.AppResponse
+import com.example.composableproject.domain.use_case.validation.FieldFormat
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
-import com.example.composableproject.presentation.login.LoginFormEvent
-import com.example.composableproject.presentation.login.LoginFormState
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -21,13 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-//    private val repository: AuthRepository,
     private val  loginUseCase: LoginUseCase,
     private val validateInputField: ValidateInputField = ValidateInputField()
 ) : ViewModel() {
-
-//    private val _users = mutableStateOf<ValidationEvent<LoginResponse>>>(ValidationEvent.Loading)
-//    val users: State<ApiState<List<User>>> = _users
 
     var state by mutableStateOf(LoginFormState())
 
@@ -50,7 +41,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onSubmitInformation(username : String ,password : String) {
-        val usernameResult = validateInputField.execute(username)
+        val usernameResult = validateInputField.execute(username,textFormat = FieldFormat.EMAIL)
         val passwordResult = validateInputField.execute(password)
 
         val formHasError = listOf(
@@ -65,15 +56,17 @@ class LoginViewModel @Inject constructor(
                 passwordError = passwordResult.errorMessage
             )
             return
+        }else{
+            state = state.copy(
+                usernameError = usernameResult.errorMessage,
+                passwordError = passwordResult.errorMessage
+            )
         }
 
 
-
         viewModelScope.launch {
-
-            val result = loginUseCase.login(username,password)
-
-            when(result){
+            validationChannel.send(ValidationEvent.Loading)
+            when(val result = loginUseCase.login(username,password)){
                 is AppResponse.Error<*> -> {
                     result.message?.let { ValidationEvent.Error(it) }
                         ?.let { validationChannel.send(it) }

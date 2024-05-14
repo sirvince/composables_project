@@ -66,7 +66,7 @@ class ValidateInputField {
             }
         }
 
-        return ValidationResult(isSuccessful = true)
+        return ValidationResult(isSuccessful = true, errorMessage = null)
     }
 
 

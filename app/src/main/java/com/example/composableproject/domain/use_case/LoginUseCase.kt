@@ -10,20 +10,19 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(private val loginRepository: LoginRepositoryImpl) {
 
     suspend fun login (username: String, password: String): Any {
-        try {
+        return try {
             val credentialDto = CredentialDto(username, password)
             val response = loginRepository.login(credentialDto)
             if (response.isSuccessful) {
                 val loginResponse = response.body()
-                return AppResponse.Success(loginResponse)
+                AppResponse.Success(loginResponse)
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-                return AppResponse.Error(errorResponse.message.toString(),"Failed",)
+                AppResponse.Error(errorResponse.message.toString(),"Failed",)
             }
         } catch (e: Exception) {
-            return AppResponse.Error("Exception",e.message)
+            AppResponse.Error("Exception",e.message)
         }
     }
-
 }
