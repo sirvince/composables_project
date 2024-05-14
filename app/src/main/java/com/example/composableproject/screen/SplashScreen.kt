@@ -1,6 +1,7 @@
 package com.example.composableproject.screen
 
 import android.view.animation.OvershootInterpolator
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -38,7 +39,11 @@ fun SplashScreen(navController: NavController){
             )
         )
         delay(THREE_SECOND_DELAY)
-        navController.navigate(Route.LoginScreen().name)
+        navController.navigate(Route.LoginScreen().name){
+            popUpTo(Route.LoginScreen().name){
+                inclusive = true
+            }
+        }
     }
     
     Box(
@@ -50,5 +55,8 @@ fun SplashScreen(navController: NavController){
             modifier = Modifier.size(200.dp),
             contentDescription = "LOGO"
         )
+
     }
+
+
 }

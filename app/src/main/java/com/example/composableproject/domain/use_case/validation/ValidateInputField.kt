@@ -5,7 +5,7 @@ import android.util.Patterns
 
 class ValidateInputField {
 
-    private val minimumLength  = 8
+    private val minimumLength  = 1
 
     fun execute(
         text : String,
@@ -66,7 +66,7 @@ class ValidateInputField {
             }
         }
 
-        return ValidationResult(isSuccessful = true)
+        return ValidationResult(isSuccessful = true, errorMessage = null)
     }
 
 

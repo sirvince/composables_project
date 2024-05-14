@@ -28,6 +28,14 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+//
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://asconlineapp.com/api/asc-be/\"")
+
+//            buildConfigField ("String", "BASE_URL", "https://asconlineapp.com/api/asc-be/")
+//            buildConfigField ("String", "APP_VERSION", "asc_app_2024_01")
+//            buildConfigField ("String", "ASC_BE", "asc-be")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -67,6 +75,10 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.49")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
 
 
     implementation (libs.gson) // Use the latest version
