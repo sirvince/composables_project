@@ -80,10 +80,6 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
-
-
-                    //connect again into api to get the information
-
                 }
                 LoginViewModel.ValidationEvent.Loading -> {
                     isLoading = true

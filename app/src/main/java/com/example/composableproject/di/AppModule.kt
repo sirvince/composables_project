@@ -2,14 +2,16 @@ package com.example.composableproject.di
 
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import com.example.composableproject.BuildConfig
 import com.example.composableproject.SharedPreferencesManager
+import com.example.composableproject.data.remote.ApplicationRepository
+import com.example.composableproject.data.remote.ApplicationRepositoryImpl
 import com.example.composableproject.data.remote.AuthRepository
 import com.example.composableproject.data.remote.AuthRepositoryImpl
 import com.example.composableproject.data.remote.LoginRepositoryImpl
-import com.example.composableproject.data.remote.LoginService
+import com.example.composableproject.data.remote.LoginRepository
+import com.example.composableproject.domain.use_case.ApplicationUseCase
 import com.example.composableproject.domain.use_case.LoginUseCase
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
@@ -90,8 +92,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesLoginService(retrofit: Retrofit) : LoginService{
-        return retrofit.create(LoginService::class.java)
+    fun providesLoginService(retrofit: Retrofit) : LoginRepository{
+        return retrofit.create(LoginRepository::class.java)
+    }
+
+
+
+    @Provides
+    @Singleton
+    fun providesApplicationService(retrofit: Retrofit) : ApplicationRepository{
+        return retrofit.create(ApplicationRepository::class.java)
     }
 
 
@@ -100,6 +110,16 @@ object AppModule {
         return LoginUseCase(loginRepository,sharedPreferencesManager)
     }
 
+    @Provides
+    fun provideApplicationUseCase(applicationRepository: ApplicationRepositoryImpl): ApplicationUseCase {
+        return ApplicationUseCase(applicationRepository)
+    }
+
+//    @Provides
+//    @Singleton
+//    fun provideApplicationRepository(applicationRepository: ApplicationRepository): ApplicationRepository {
+//        return ApplicationRepositoryImpl(applicationRepository);
+//    }
 
 
 

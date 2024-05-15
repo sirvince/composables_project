@@ -28,6 +28,7 @@ class LoginUseCase @Inject constructor(
                     AppResponse.Success(userResponse)
                 }else{
                     val errorBody = userDetailResponse.errorBody()?.string()
+                    Log.v("LoginUseCase", errorBody.toString())
                     val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
                     AppResponse.Error(errorResponse.message.toString(),"Failed",)
                 }

@@ -30,11 +30,11 @@ android {
         }
 //
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://asconlineapp.com/api/asc-be/\"")
+            buildConfigField("String", "BASE_URL", "\"https://dev.asconlineapp.com/api/\"")
+            buildConfigField("String", "ASC_BE", "\"asc-be\"")
+            buildConfigField("String", "ASC_Ph2", "\"asc-user-v2/api/ph2\"")
+            buildConfigField("String", "ASC_USER", "\"asc-user/api/v1\"")
 
-//            buildConfigField ("String", "BASE_URL", "https://asconlineapp.com/api/asc-be/")
-//            buildConfigField ("String", "APP_VERSION", "asc_app_2024_01")
-//            buildConfigField ("String", "ASC_BE", "asc-be")
         }
     }
     compileOptions {

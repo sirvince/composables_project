@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.composableproject.data.model.DataObject
 import com.example.composableproject.ui.theme.PrimaryColor
 import com.example.composableproject.ui.theme.Purple40
 import com.example.composableproject.ui.theme.S1Color
@@ -35,7 +36,7 @@ import com.example.composableproject.ui.theme.SecondaryColor
 import com.example.composableproject.ui.theme.TertiaryColor
 
 @Composable
-fun ApplicationItem(application: Application) {
+fun ApplicationItem(application: DataObject) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -92,7 +93,7 @@ fun ApplicationItem(application: Application) {
                     )
 
                     Text(
-                        text = application.getBrandProduct() ,
+                        text = application.brand ,
                         style = MaterialTheme.typography.titleMedium,
                         color = Color.Black,
                         lineHeight = 8.sp
