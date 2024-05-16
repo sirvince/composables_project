@@ -21,9 +21,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.composableproject.presentation.application.application_details.ApplicationListScreen
+import com.example.composableproject.presentation.application.application_list.ApplicationDetailsScreen
 import com.example.composableproject.route.Route
 import com.example.composableproject.presentation.login.LoginScreen
-import com.example.composableproject.presentation.application.MemberListScreen
 import com.example.composableproject.presentation.menu.MenuScreen
 import com.example.composableproject.screen.PolicyScreen
 import com.example.composableproject.screen.PrivacyScreen
@@ -56,15 +57,13 @@ class LoginActivity : ComponentActivity() {
 fun Navigation(){
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Route.SplashScreen().name){
+    NavHost(navController = navController, startDestination = Route.MenuScreen().name){
         composable(Route.MenuScreen().name){
             MenuScreen(navController = navController)
         }
-
-        composable(Route.MemberListScreen().name){
-            MemberListScreen(navController = navController)
+        composable(Route.ApplicationListScreen().name){
+            ApplicationListScreen(navController = navController)
         }
-
         composable(Route.SplashScreen().name){
             SplashScreen(navController = navController)
         }
@@ -80,12 +79,11 @@ fun Navigation(){
         composable(Route.SignUpScreen().name){
             SignUpScreen(navController = navController)
         }
-
-
+        composable(Route.ApplicationDetailScreen().name){
+            ApplicationDetailsScreen(navController = navController)
+        }
     }
-
     HandleBackButton(navController)
-
 }
 
 @Composable

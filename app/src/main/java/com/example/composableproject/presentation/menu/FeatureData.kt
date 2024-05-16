@@ -9,7 +9,7 @@ object FeatureData {
     val FeatureList =  listOf(
         Feature(
             title = "Application",
-            destination = Route.MemberListScreen().name,
+            destination = Route.ApplicationListScreen().name,
             R.drawable.ic_member
         ),
         Feature(

@@ -83,4 +83,26 @@ data class DataObject(
     @SerializedName("reviewer") val reviewer: String?,
     @SerializedName("applicant") val applicant: Applicant,
     @SerializedName("document_type") val documentType: List<DocumentType>
-)
+){
+
+    fun getFormTypeGroup(): String {
+        return "$formType - $formGroup"
+    }
+
+    fun getApplicationTypeAndProcessType(): String {
+        return "$applicationType - $processType"
+    }
+
+
+    fun getBrandProduct(): String {
+        return "$brand - $product"
+    }
+
+
+    fun getSubmissionDateTime(): String {
+        return "APPLICATION DATE: $submissionDate $submissionTime"
+    }
+}
+
+
+

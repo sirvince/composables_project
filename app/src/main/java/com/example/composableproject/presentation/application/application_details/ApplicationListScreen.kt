@@ -1,4 +1,4 @@
-package com.example.composableproject.presentation.application
+package com.example.composableproject.presentation.application.application_details
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -38,13 +38,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composableproject.component.SearchInputTextField
-import com.example.composableproject.data.model.ApplicationFilterDto
+import com.example.composableproject.presentation.application.ApplicationViewModel
+import com.example.composableproject.presentation.application.SampleData
 import com.example.composableproject.ui.theme.PrimaryColor
 import com.example.composableproject.ui.theme.TertiaryColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemberListScreen(
+fun ApplicationListScreen(
     navController: NavController,
     viewModel: ApplicationViewModel = hiltViewModel()
 ){
