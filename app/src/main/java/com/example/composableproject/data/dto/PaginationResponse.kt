@@ -1,7 +1,7 @@
-package com.example.composableproject.data.model
+package com.example.composableproject.data.dto
 
+import com.example.composableproject.data.model.DataObject
 import com.google.gson.annotations.SerializedName
-import java.util.Objects
 
 data class PaginationResponse (
 

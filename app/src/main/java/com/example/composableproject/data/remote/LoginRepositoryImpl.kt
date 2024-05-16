@@ -1,7 +1,7 @@
 package com.example.composableproject.data.remote
 
 import com.example.composableproject.data.dto.CredentialDto
-import com.example.composableproject.data.model.LoginResponse
+import com.example.composableproject.data.dto.LoginResponse
 import com.example.composableproject.data.model.UserInfo
 import retrofit2.Response
 import javax.inject.Inject

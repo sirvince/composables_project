@@ -1,4 +1,4 @@
-package com.example.composableproject.data.model
+package com.example.composableproject.data.dto
 
 import com.google.gson.annotations.SerializedName
 

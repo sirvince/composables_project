@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composableproject.data.model.ApplicationFilterDto
 import com.example.composableproject.data.model.DataObject
-import com.example.composableproject.data.model.PaginationResponse
+import com.example.composableproject.data.dto.PaginationResponse
 import com.example.composableproject.domain.use_case.ApplicationUseCase
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson
@@ -60,7 +60,8 @@ class ApplicationViewModel @Inject constructor(
                         ?.let { validationChannel.send(it) }
                 }
                 is AppResponse.Success<*> -> {
-                    val paginationResponse = Gson().fromJson(Gson().toJson(result.data),PaginationResponse::class.java)
+                    val paginationResponse = Gson().fromJson(Gson().toJson(result.data),
+                        PaginationResponse::class.java)
                     _agentsData.value = paginationResponse.data
                     validationChannel.send(ValidationEvent.Success)
                 }

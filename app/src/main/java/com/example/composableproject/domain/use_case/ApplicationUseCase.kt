@@ -3,7 +3,7 @@ package com.example.composableproject.domain.use_case
 
 import android.util.Log
 import com.example.composableproject.data.model.ApplicationFilterDto
-import com.example.composableproject.data.model.PaginationResponse
+import com.example.composableproject.data.dto.PaginationResponse
 import com.example.composableproject.data.remote.ApplicationRepositoryImpl
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson
@@ -21,7 +21,7 @@ class ApplicationUseCase @Inject constructor(
                 AppResponse.Success(response.body())
             } else {
                 val errorBody = response.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody,PaginationResponse::class.java)
+                val errorResponse = Gson().fromJson(errorBody, PaginationResponse::class.java)
                 AppResponse.Error(errorBody.toString(),"Failed",)
             }
         } catch (e: Exception) {

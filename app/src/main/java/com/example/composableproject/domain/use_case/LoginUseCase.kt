@@ -1,11 +1,9 @@
 package com.example.composableproject.domain.use_case
 
-import android.content.Context
 import android.util.Log
 import com.example.composableproject.SharedPreferencesManager
 import com.example.composableproject.data.dto.CredentialDto
-import com.example.composableproject.data.model.LoginResponse
-import com.example.composableproject.data.model.UserInfo
+import com.example.composableproject.data.dto.LoginResponse
 import com.example.composableproject.data.remote.LoginRepositoryImpl
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson

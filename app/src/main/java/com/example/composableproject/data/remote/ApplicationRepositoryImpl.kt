@@ -2,7 +2,7 @@ package com.example.composableproject.data.remote
 
 import android.util.Log
 import com.example.composableproject.data.model.ApplicationFilterDto
-import com.example.composableproject.data.model.PaginationResponse
+import com.example.composableproject.data.dto.PaginationResponse
 import retrofit2.Response
 import javax.inject.Inject
 
