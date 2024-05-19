@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,7 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -39,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.ui.theme.PrimaryColor
@@ -47,9 +46,12 @@ import com.example.composableproject.ui.theme.PrimaryColor
 @Composable
 fun ApplicationDetailsScreen(
     navController: NavController,
+    viewModel: ApplicationDetailsViewModel = hiltViewModel()
 ){
     val scrollState = rememberScrollState()
 
+    val applicationData = viewModel.agentsData.collectAsState()
+    val application = applicationData.value
 
     Scaffold(
         topBar = {
@@ -119,7 +121,7 @@ fun ApplicationDetailsScreen(
 //                        .align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = "D0041N042524D",
+                        text = application.referenceCode,
                         style = MaterialTheme.typography.displaySmall,
                         color = PrimaryColor,
                         fontWeight = FontWeight.Bold,
@@ -132,7 +134,7 @@ fun ApplicationDetailsScreen(
                     val applicationForm = buildAnnotatedString {
                         append("APPLICATION FORM: ")
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("S1 - INDIVIDUAL")
+                            append(application.getFormTypeGroup().uppercase())
                         }
                     }
 
@@ -147,7 +149,7 @@ fun ApplicationDetailsScreen(
                     val applicationType= buildAnnotatedString {
                         append("APPLICATION TYPE: ")
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("SPECIAL SCREENING")
+                            append(application.getApplicationTypeAndProcessType())
                         }
                     }
 
@@ -161,7 +163,7 @@ fun ApplicationDetailsScreen(
                     val applicationDate= buildAnnotatedString {
                         append("APPLICATION DATE: ")
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("MAY 16, 2024 13:00:00")
+                            append("${application.submissionDate}  ${application.submissionTime}")
                         }
                     }
 
@@ -188,13 +190,13 @@ fun ApplicationDetailsScreen(
                         )
 
 
-
+                        val decisionStatus = application.decisionStatus.toString()
                         Text(
-                            text = "DISAPPROVED",
+                            text = decisionStatus,
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleMedium,
                             lineHeight = 16.sp,
-                            color = when("DISAPPROVED") {
+                            color = when(decisionStatus) {
                                 "INCOMPLETE" -> Color.Black
                                 "APPROVED FOR PRODUCTION","APPROVED WITH CAUTION","APPROVED" -> Color.Black
                                 "DISAPPROVED" -> Color.White
@@ -202,7 +204,7 @@ fun ApplicationDetailsScreen(
                             },
                             modifier = Modifier
                                 .background(
-                                    color = when ("DISAPPROVED") {
+                                    color = when (decisionStatus) {
                                         "INCOMPLETE" -> Color.Yellow
                                         "APPROVED FOR PRODUCTION", "APPROVED WITH CAUTION", "APPROVED" -> Color.Green
                                         "DISAPPROVED" -> Color.Red
@@ -220,7 +222,7 @@ fun ApplicationDetailsScreen(
             }
 
             /*Client Information*/
-            ClientInformation()
+            ClientInformation(application)
             /*Material Information*/
             MaterialInformation()
             /*Document History*/

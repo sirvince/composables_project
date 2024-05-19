@@ -1,4 +1,4 @@
-package com.example.composableproject.presentation.application
+package com.example.composableproject.presentation.application.application_list
 
 
 import android.util.Log
@@ -20,49 +20,45 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ApplicationViewModel @Inject constructor(
+class ApplicationDetailsViewModel @Inject constructor(
     private val  applicationUseCase: ApplicationUseCase
 ) : ViewModel() {
 
-//    var state by mutableStateOf(LoginFormState())
     private  val validationChannel  = Channel<ValidationEvent>()
     val validationEvents = validationChannel.receiveAsFlow()
 
-    private val _agentsData : MutableStateFlow<List<DataObject>> = MutableStateFlow(listOf())
-    val agentsData : StateFlow<List<DataObject>> = _agentsData
+
+
+    private val _agentsData : MutableStateFlow<DataObject> = MutableStateFlow(DataObject())
+    val agentsData : StateFlow<DataObject> = _agentsData
 
     init {
-        val applicationFilter = ApplicationFilterDto(
-            applicationType = listOf("ALL"),
-            formGroup =  "ALL",
-            search = "",
-            processType = "ALL",
-            formType = "s1"
-        )
-        onEvent(ApplicationFormEvent.GetApplication(100,1,""))
+        Log.v("vince","getApplicationDetails")
+        onEvent(ApplicationDetailsFormEvent.GetApplicationDetails(260))
     }
 
-    fun onEvent(event: ApplicationFormEvent){
+    private fun onEvent(event: ApplicationDetailsFormEvent){
         when(event){
-            is ApplicationFormEvent.GetApplication -> {
-                getApplicationList(event)
+            is ApplicationDetailsFormEvent.GetApplicationDetails -> {
+                getApplicationDetails(event.applicationId)
             }
         }
     }
 
-    private fun getApplicationList(event : ApplicationFormEvent.GetApplication) {
+    private fun getApplicationDetails(applicationId : Int) {
         viewModelScope.launch {
-            Log.v("vince","getApplicationList")
+            Log.v("vince","getApplicationDetails")
 
-            when(val result = applicationUseCase.application(event.take,event.page,event.search)){
+            when(val result = applicationUseCase.applicationDetails(applicationId)){
                 is AppResponse.Error<*> -> {
                     result.message?.let {ValidationEvent.Error(it) }
                         ?.let { validationChannel.send(it) }
                 }
                 is AppResponse.Success<*> -> {
-                    val paginationResponse = Gson().fromJson(Gson().toJson(result.data),
-                        PaginationResponse::class.java)
-                    _agentsData.value = paginationResponse.data
+                    val data = Gson().fromJson(Gson().toJson(result.data),
+                        DataObject::class.java)
+                    _agentsData.value = data
+                    Log.v("getApplicationDetails",Gson().toJson(_agentsData))
                     validationChannel.send(ValidationEvent.Success)
                 }
                 is AppResponse.Loading<*> -> {

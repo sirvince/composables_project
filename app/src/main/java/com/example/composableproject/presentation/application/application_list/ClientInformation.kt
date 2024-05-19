@@ -20,12 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.composableproject.data.model.DataObject
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.ui.theme.PrimaryColor
 
 
 @Composable
-fun ClientInformation () {
+fun ClientInformation (
+    application : DataObject
+) {
     /*Client Information*/
     Card(
         modifier = Modifier
@@ -59,7 +62,7 @@ fun ClientInformation () {
             val company = buildAnnotatedString {
                 append("COMPANY: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("DITO TELECOMMUNITY CORPORATION")
+                    application.company?.name?.let { append(it.uppercase()) }
                 }
             }
 
@@ -87,7 +90,7 @@ fun ClientInformation () {
             val brand = buildAnnotatedString {
                 append("BRAND: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("DITO TELECOMMUNITY")
+                    append(application.brand)
                 }
             }
 
@@ -103,7 +106,7 @@ fun ClientInformation () {
             val product = buildAnnotatedString {
                 append("PRODUCT: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("DITO APP")
+                    append(application.product)
                 }
             }
             Text(
@@ -118,7 +121,7 @@ fun ClientInformation () {
             val category = buildAnnotatedString {
                 append("CATEGORY: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("TELECOMMUNICATIONS")
+                    append(application.category)
                 }
             }
 

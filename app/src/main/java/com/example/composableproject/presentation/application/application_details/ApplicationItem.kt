@@ -180,7 +180,6 @@ fun ApplicationItem(application: DataObject) {
                 Text(
                     text = application.getBrandProduct() ,
                     style = MaterialTheme.typography.titleMedium,
-
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     lineHeight = 16.sp
@@ -190,11 +189,9 @@ fun ApplicationItem(application: DataObject) {
                 Text(
                     text = application.getSubmissionDateTime() ,
                     style = MaterialTheme.typography.titleMedium,
-
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     lineHeight = 16.sp
-
                 )
 
 
@@ -202,13 +199,12 @@ fun ApplicationItem(application: DataObject) {
                 Text(
                     text = application.internalStatus,
                     style = MaterialTheme.typography.titleMedium,
-
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     lineHeight = 16.sp
                 )
 
-                val applicationStatus = "APPROVED"
+                val applicationStatus = application.decisionStatus
                 Text(
 
                     text = applicationStatus?: "-",

@@ -57,7 +57,7 @@ class LoginActivity : ComponentActivity() {
 fun Navigation(){
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Route.MenuScreen().name){
+    NavHost(navController = navController, startDestination = Route.ApplicationDetailScreen().name){
         composable(Route.MenuScreen().name){
             MenuScreen(navController = navController)
         }

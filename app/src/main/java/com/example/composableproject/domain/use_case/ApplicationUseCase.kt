@@ -13,11 +13,31 @@ class ApplicationUseCase @Inject constructor(
     private val applicationRepository: ApplicationRepositoryImpl
 ) {
 
-    suspend fun application ( take: Int, page: Int,applicationFilterDto : ApplicationFilterDto): Any {
+    suspend fun application ( take: Int, page: Int,search : String): Any {
         return try {
             Log.v("vince","application")
-            val response = applicationRepository.pendingApplication(take,page,applicationFilterDto)
+            val response = applicationRepository.pendingApplication(take,page,search)
             if (response.isSuccessful) {
+
+                Log.v("vince",Gson().toJson(response.body()))
+                AppResponse.Success(response.body())
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, PaginationResponse::class.java)
+                AppResponse.Error(errorBody.toString(),"Failed",)
+            }
+        } catch (e: Exception) {
+            AppResponse.Error(e.message.toString(),"Exception")
+        }
+    }
+
+
+    suspend fun applicationDetails ( applicationId: Int): Any {
+        return try {
+            Log.v("vince","application")
+            val response = applicationRepository.fetchApplication(applicationId)
+            if (response.isSuccessful) {
+                Log.v("vince",Gson().toJson(response.body()))
                 AppResponse.Success(response.body())
             } else {
                 val errorBody = response.errorBody()?.string()
