@@ -9,9 +9,14 @@ data class Applicant(
     @SerializedName("lname") val lname: String,
     @SerializedName("phone") val phone: String,
     @SerializedName("telNo") val telNo: String?,
+    @SerializedName("company") val company: Company,
     @SerializedName("altTelNo") val altTelNo: String?,
     @SerializedName("email") val email: String,
     @SerializedName("status") val status: Int,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String
-)
+){
+    fun getFullName() :String {
+        return "$fname $lname"
+    }
+}

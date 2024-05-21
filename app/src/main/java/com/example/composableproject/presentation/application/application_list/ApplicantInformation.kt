@@ -26,7 +26,7 @@ import com.example.composableproject.ui.theme.PrimaryColor
 
 
 @Composable
-fun ClientInformation (
+fun ApplicantInformation (
     application : DataObject
 ) {
     /*Client Information*/
@@ -49,7 +49,7 @@ fun ClientInformation (
                 .padding(16.dp)
         ) {
             Text(
-                text = "Client Information",
+                text = "Applicant Information",
                 style = MaterialTheme.typography.titleLarge,
                 color = PrimaryColor,
                 fontWeight = FontWeight.Bold,
@@ -58,11 +58,26 @@ fun ClientInformation (
             )
 
             Spacer(Modifier.height(ITEM_SPACING))
+            val name = buildAnnotatedString {
+                append("NAME: ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                     append(application.applicant?.getFullName())
+                }
+            }
+
+            Text(
+                text = name,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                lineHeight = 16.sp
+
+            )
+
 
             val company = buildAnnotatedString {
                 append("COMPANY: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    application.company?.name?.let { append(it.uppercase()) }
+                    append(application.applicant?.company?.name)
                 }
             }
 
@@ -73,28 +88,10 @@ fun ClientInformation (
                 lineHeight = 16.sp
 
             )
-
-
-            val address = buildAnnotatedString {
-                append("ADDRESS: ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    application.company?.address?.let { append(it.uppercase()) }
-                }
-            }
-
-            Text(
-                text = address,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                lineHeight = 16.sp
-
-            )
-
-
             val affiliation = buildAnnotatedString {
                 append("AFFILIATION: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.company?.affiliate?.name)
+                    append(application.applicant?.company?.affiliate?.name)
                 }
             }
 
@@ -105,49 +102,35 @@ fun ClientInformation (
                 lineHeight = 16.sp
             )
 
-            val brand = buildAnnotatedString {
-                append("BRAND: ")
+            val phoneNumber = buildAnnotatedString {
+                append("MOBILE NO: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.brand)
+                    append(application.applicant?.phone)
                 }
             }
 
 
             Text(
-                text = brand,
+                text = phoneNumber,
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 lineHeight = 16.sp
 
             )
 
-            val product = buildAnnotatedString {
-                append("PRODUCT: ")
+            val email = buildAnnotatedString {
+                append("EMAIL: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.product)
+                    append(application.applicant?.email)
+
                 }
             }
             Text(
-                text = product,
+                text = email,
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 lineHeight = 16.sp
 
-            )
-
-
-            val category = buildAnnotatedString {
-                append("CATEGORY: ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.category)
-                }
-            }
-
-            Text(
-                text = category,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                lineHeight = 16.sp
             )
 
         }

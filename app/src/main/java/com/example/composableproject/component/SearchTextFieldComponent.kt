@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.composableproject.util.helper.LoggerUtil
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -29,7 +30,8 @@ fun SearchInputTextField(
     labelText : String,
     leadingIcon : ImageVector? = null,
     keyboardType : KeyboardType = KeyboardType.Text,
-    visualTransformation : VisualTransformation = VisualTransformation.None
+    visualTransformation : VisualTransformation = VisualTransformation.None,
+    onDone : () -> Unit
 
 ){
 
@@ -52,7 +54,10 @@ fun SearchInputTextField(
         shape = RoundedCornerShape(30),
         singleLine = true,
         keyboardActions = KeyboardActions(
-            onDone = { focusRequester.requestFocus() }
+            onDone = {
+                LoggerUtil().logger("SearchInputTextField",value)
+                onDone()
+            }
         ),
     )
 

@@ -1,8 +1,5 @@
 package com.example.composableproject.domain.use_case
 
-
-import android.util.Log
-import com.example.composableproject.data.model.ApplicationFilterDto
 import com.example.composableproject.data.dto.PaginationResponse
 import com.example.composableproject.data.remote.ApplicationRepositoryImpl
 import com.example.composableproject.domain.use_case.respose.AppResponse
@@ -15,11 +12,8 @@ class ApplicationUseCase @Inject constructor(
 
     suspend fun application ( take: Int, page: Int,search : String): Any {
         return try {
-            Log.v("vince","application")
             val response = applicationRepository.pendingApplication(take,page,search)
             if (response.isSuccessful) {
-
-                Log.v("vince",Gson().toJson(response.body()))
                 AppResponse.Success(response.body())
             } else {
                 val errorBody = response.errorBody()?.string()
@@ -34,10 +28,8 @@ class ApplicationUseCase @Inject constructor(
 
     suspend fun applicationDetails ( applicationId: Int): Any {
         return try {
-            Log.v("vince","application")
             val response = applicationRepository.fetchApplication(applicationId)
             if (response.isSuccessful) {
-                Log.v("vince",Gson().toJson(response.body()))
                 AppResponse.Success(response.body())
             } else {
                 val errorBody = response.errorBody()?.string()

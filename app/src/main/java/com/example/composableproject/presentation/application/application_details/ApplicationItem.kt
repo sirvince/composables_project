@@ -1,5 +1,6 @@
 package com.example.composableproject.presentation.application.application_details
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,17 +26,26 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.composableproject.data.model.DataObject
+import com.example.composableproject.route.Route
 import com.example.composableproject.ui.theme.PrimaryColor
+import com.google.gson.Gson
 import java.util.Locale
 
 @Composable
-fun ApplicationItem(application: DataObject) {
+fun ApplicationItem(
+    navController: NavController,
+    application: DataObject) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable {  },
+            .clickable {
+//                Log.v("ApplicationDetailsScreen","Gson().toJson(application)")
+                Log.v("getApplicationDetails","1 applicationId ${application.id}")
+                navController.navigate("applicationDetailScreen/${application.id}")
+                       },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),

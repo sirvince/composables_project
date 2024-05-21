@@ -6,7 +6,7 @@ data class TypeOfMedium (
 
   @SerializedName("id"              ) var id             : Int?    = null,
   @SerializedName("isMoving"        ) var isMoving       : Int?    = null,
-  @SerializedName("type_of_medium"  ) var typeOfMedium   : String? = null,
+  @SerializedName("type_of_medium"  ) var typeOfMedium   : String = "-",
   @SerializedName("dialect"         ) var dialect        : String? = null,
   @SerializedName("execution"       ) var execution      : String? = null,
   @SerializedName("lengthSize"      ) var lengthSize     : String? = null,

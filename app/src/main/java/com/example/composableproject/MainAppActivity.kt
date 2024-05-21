@@ -3,6 +3,7 @@ package com.example.composableproject
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -18,9 +19,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.composableproject.presentation.application.application_details.ApplicationListScreen
 import com.example.composableproject.presentation.application.application_list.ApplicationDetailsScreen
 import com.example.composableproject.route.Route
@@ -57,7 +60,7 @@ class LoginActivity : ComponentActivity() {
 fun Navigation(){
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Route.ApplicationDetailScreen().name){
+    NavHost(navController = navController, startDestination = Route.ApplicationListScreen().name){
         composable(Route.MenuScreen().name){
             MenuScreen(navController = navController)
         }
@@ -79,7 +82,14 @@ fun Navigation(){
         composable(Route.SignUpScreen().name){
             SignUpScreen(navController = navController)
         }
-        composable(Route.ApplicationDetailScreen().name){
+        composable(Route.ApplicationDetailScreen().name,
+            arguments = listOf(navArgument("applicationId") { type = NavType.IntType }))
+        {backStackEntry ->
+            val applicationId = backStackEntry.arguments?.getInt("applicationId")
+            Log.v("ApplicationDetailsScreen","ApplicationDetailsScreen $applicationId")
+//            val sharedViewModel: SharedViewModel = hiltViewModel()
+//            applicationId?.let { sharedViewModel.setParameter(it) }
+//            ApplicationDetailScreen(sharedViewModel)
             ApplicationDetailsScreen(navController = navController)
         }
     }

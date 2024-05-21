@@ -52,7 +52,7 @@ class ApplicationViewModel @Inject constructor(
 
     private fun getApplicationList(event : ApplicationFormEvent.GetApplication) {
         viewModelScope.launch {
-            Log.v("vince","getApplicationList")
+            Log.v("vince","getApplicationList on Search ${event.search}")
 
             when(val result = applicationUseCase.application(event.take,event.page,event.search)){
                 is AppResponse.Error<*> -> {

@@ -38,10 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composableproject.component.SearchInputTextField
+import com.example.composableproject.presentation.application.ApplicationFormEvent
 import com.example.composableproject.presentation.application.ApplicationViewModel
 import com.example.composableproject.presentation.application.SampleData
 import com.example.composableproject.ui.theme.PrimaryColor
 import com.example.composableproject.ui.theme.TertiaryColor
+import com.example.composableproject.util.helper.LoggerUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -163,6 +165,7 @@ fun ApplicationListScreen(
             SearchInputTextField(
                 value = search,
                 onValueChange = setSearch,
+                onDone = { viewModel.onEvent(ApplicationFormEvent.GetApplication(10,1,search)) },
                 labelText = "Search application using reference code,brand,product...",
                 leadingIcon = Icons.Default.Search,
                 modifier = Modifier
@@ -170,22 +173,13 @@ fun ApplicationListScreen(
                     .padding(16.dp)
             )
 
-
-            //member list
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {
-//                items(SampleData.applicationList.size) { index ->
-//                    Log.v("SampleData",SampleData.applicationList.size.toString())
-//                    ApplicationItem(
-//                        application = SampleData.applicationList[index]
-//                    )
-//                }
-
                 items(count = agentsData.value.size) {
-                    ApplicationItem(agentsData.value[it])
+                    ApplicationItem(navController, agentsData.value[it])
                 }
             }
         }

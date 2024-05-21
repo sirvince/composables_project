@@ -1,6 +1,9 @@
 package com.example.composableproject.presentation.application.application_list
 
+import android.content.pm.ApplicationInfo
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,12 +27,9 @@ import com.example.composableproject.data.model.DataObject
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.ui.theme.PrimaryColor
 
-
 @Composable
-fun ClientInformation (
-    application : DataObject
-) {
-    /*Client Information*/
+fun ApplicationInfo(application : DataObject){
+
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -47,10 +47,11 @@ fun ClientInformation (
         Column(
             modifier = Modifier
                 .padding(16.dp)
+//                        .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "Client Information",
-                style = MaterialTheme.typography.titleLarge,
+                text = application.referenceCode,
+                style = MaterialTheme.typography.displaySmall,
                 color = PrimaryColor,
                 fontWeight = FontWeight.Bold,
                 lineHeight = 16.sp
@@ -59,98 +60,94 @@ fun ClientInformation (
 
             Spacer(Modifier.height(ITEM_SPACING))
 
-            val company = buildAnnotatedString {
-                append("COMPANY: ")
+            val applicationForm = buildAnnotatedString {
+                append("APPLICATION FORM: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    application.company?.name?.let { append(it.uppercase()) }
+                    append(application.getFormTypeGroup().uppercase())
                 }
             }
 
             Text(
-                text = company,
+                text = applicationForm,
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 lineHeight = 16.sp
 
             )
 
-
-            val address = buildAnnotatedString {
-                append("ADDRESS: ")
+            val applicationType= buildAnnotatedString {
+                append("APPLICATION TYPE: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    application.company?.address?.let { append(it.uppercase()) }
+                    append(application.getApplicationTypeAndProcessType())
                 }
             }
 
             Text(
-                text = address,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                lineHeight = 16.sp
-
-            )
-
-
-            val affiliation = buildAnnotatedString {
-                append("AFFILIATION: ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.company?.affiliate?.name)
-                }
-            }
-
-            Text(
-                text = affiliation,
+                text = applicationType,
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 lineHeight = 16.sp
             )
 
-            val brand = buildAnnotatedString {
-                append("BRAND: ")
+            val applicationDate= buildAnnotatedString {
+                append("APPLICATION DATE: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.brand)
+                    append("${application.submissionDate}  ${application.submissionTime}")
                 }
             }
 
-
             Text(
-                text = brand,
+                text = applicationDate,
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 lineHeight = 16.sp
 
             )
+//
+//
+//                    Status
 
-            val product = buildAnnotatedString {
-                append("PRODUCT: ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.product)
-                }
+
+
+            Row {
+                Text(
+                    text = "DECISION STATUS: ",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.Black,
+                    lineHeight = 16.sp
+
+                )
+
+
+                val decisionStatus = application.decisionStatus.toString()
+                Text(
+                    text = decisionStatus,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    lineHeight = 16.sp,
+                    color = when(decisionStatus) {
+                        "INCOMPLETE" -> Color.Black
+                        "APPROVED FOR PRODUCTION","APPROVED WITH CAUTION","APPROVED" -> Color.Black
+                        "DISAPPROVED" -> Color.White
+                        else -> Color.Black
+                    },
+                    modifier = Modifier
+                        .background(
+                            color = when (decisionStatus) {
+                                "INCOMPLETE" -> Color.Yellow
+                                "APPROVED FOR PRODUCTION", "APPROVED WITH CAUTION", "APPROVED" -> Color.Green
+                                "DISAPPROVED" -> Color.Red
+                                else -> Color.White
+                            },
+                            shape = RoundedCornerShape(8.dp)
+                        )
+//                                .padding(4.dp)
+                )
             }
-            Text(
-                text = product,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                lineHeight = 16.sp
 
-            )
-
-
-            val category = buildAnnotatedString {
-                append("CATEGORY: ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(application.category)
-                }
-            }
-
-            Text(
-                text = category,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                lineHeight = 16.sp
-            )
 
         }
 
     }
+
 }

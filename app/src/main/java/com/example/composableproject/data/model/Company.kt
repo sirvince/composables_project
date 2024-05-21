@@ -14,6 +14,7 @@ data class Company (
   @SerializedName("countryID"   ) var countryID   : Int?    = null,
   @SerializedName("contactID"   ) var contactID   : Int?    = null,
   @SerializedName("affiliateID" ) var affiliateID : Int?    = null,
+  @SerializedName("affiliate" ) var affiliate : Affiliate?    = null,
   @SerializedName("status"      ) var status      : Int?    = null,
   @SerializedName("createdAt"   ) var createdAt   : String? = null,
   @SerializedName("updatedAt"   ) var updatedAt   : String? = null
