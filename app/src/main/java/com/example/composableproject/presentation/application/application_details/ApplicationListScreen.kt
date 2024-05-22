@@ -5,17 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,21 +29,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composableproject.R
+import com.example.composableproject.component.CenteredImage
 import com.example.composableproject.component.SearchInputTextField
-import com.example.composableproject.presentation.application.ApplicationFormEvent
-import com.example.composableproject.presentation.application.ApplicationViewModel
 import com.example.composableproject.presentation.application.SampleData
 import com.example.composableproject.ui.theme.PrimaryColor
-import com.example.composableproject.ui.theme.TertiaryColor
-import com.example.composableproject.util.helper.LoggerUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,27 +133,27 @@ fun ApplicationListScreen(
 //                )
 //            }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-//                    val applicationFilter = ApplicationFilterDto(
-//                        applicationType = listOf("ALL"),
-//                        formGroup =  "ALL",
-//                        search = "",
-//                        processType = "ALL",
-//                        formType = "s1"
-//                    )
-//                    viewModel.onEvent(ApplicationFormEvent.GetApplication(1,1,applicationFilter))
-                },
-                containerColor = TertiaryColor
-            ) {
-                Icon(
-                    Icons.Default.Add,
-                    tint = Color.White,
-                    contentDescription = "Add"
-                )
-            }
-        }
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                onClick = {
+////                    val applicationFilter = ApplicationFilterDto(
+////                        applicationType = listOf("ALL"),
+////                        formGroup =  "ALL",
+////                        search = "",
+////                        processType = "ALL",
+////                        formType = "s1"
+////                    )
+////                    viewModel.onEvent(ApplicationFormEvent.GetApplication(1,1,applicationFilter))
+//                },
+//                containerColor = TertiaryColor
+//            ) {
+//                Icon(
+//                    Icons.Default.Add,
+//                    tint = Color.White,
+//                    contentDescription = "Add"
+//                )
+//            }
+//        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -165,7 +165,9 @@ fun ApplicationListScreen(
             SearchInputTextField(
                 value = search,
                 onValueChange = setSearch,
-                onDone = { viewModel.onEvent(ApplicationFormEvent.GetApplication(10,1,search)) },
+                onDone = { if(search.isNotEmpty()) viewModel.onEvent(ApplicationFormEvent.GetApplication(10,1,search))
+                           else viewModel.clearAgentsData()
+                         },
                 labelText = "Search application using reference code,brand,product...",
                 leadingIcon = Icons.Default.Search,
                 modifier = Modifier
@@ -178,8 +180,18 @@ fun ApplicationListScreen(
                 contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {
-                items(count = agentsData.value.size) {
-                    ApplicationItem(navController, agentsData.value[it])
+                if (agentsData.value.isNotEmpty()) {
+                    items(count = agentsData.value.size) { index ->
+                        ApplicationItem(navController, agentsData.value[index])
+                    }
+                } else {
+                    item {
+                        CenteredImage(
+                            painter = painterResource(id = R.drawable.ic_searching),
+                            modifier = Modifier.fillMaxSize().size(400.dp).align(Alignment.CenterHorizontally),
+                            contentDescription = "No Content"
+                        )
+                    }
                 }
             }
         }

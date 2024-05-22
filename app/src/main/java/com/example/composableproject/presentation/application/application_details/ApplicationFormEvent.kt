@@ -1,6 +1,4 @@
-package com.example.composableproject.presentation.application
-
-import com.example.composableproject.data.model.ApplicationFilterDto
+package com.example.composableproject.presentation.application.application_details
 
 
 sealed class ApplicationFormEvent {

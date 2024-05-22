@@ -159,6 +159,7 @@ fun ApplicationDetailsScreen(
                 ClientInformation(application)
                 ApplicantInformation(application)
                 MaterialInformation(application)
+                DocumentHistory2(application)
             }else{
                 LoggerUtil().logger("ApplicationDetailsScreen","else $onFetch")
 

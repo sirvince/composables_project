@@ -89,6 +89,35 @@ fun ApplicationInfo(application : DataObject){
                 lineHeight = 16.sp
             )
 
+
+            val paymentStatus= buildAnnotatedString {
+                append("PAYMENT STATUS: ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(application.paymentStatus)
+                }
+            }
+
+            Text(
+                text = paymentStatus,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                lineHeight = 16.sp
+            )
+
+            val internalStatus= buildAnnotatedString {
+                append("STATUS: ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(application.internalStatus)
+                }
+            }
+
+            Text(
+                text = internalStatus,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                lineHeight = 16.sp
+            )
+
             val applicationDate= buildAnnotatedString {
                 append("APPLICATION DATE: ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -103,10 +132,23 @@ fun ApplicationInfo(application : DataObject){
                 lineHeight = 16.sp
 
             )
-//
-//
-//                    Status
 
+
+
+            val processBy= buildAnnotatedString {
+                append("PROCESS BY: ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append("${application.assignedUser?.user_type?.name?.uppercase()} - ${application.assignedUser?.fname}")
+                }
+            }
+
+            Text(
+                text = processBy,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                lineHeight = 16.sp
+
+            )
 
 
             Row {
@@ -119,7 +161,7 @@ fun ApplicationInfo(application : DataObject){
                 )
 
 
-                val decisionStatus = application.decisionStatus.toString()
+                val decisionStatus = application.decisionStatus
                 Text(
                     text = decisionStatus,
                     fontWeight = FontWeight.Bold,

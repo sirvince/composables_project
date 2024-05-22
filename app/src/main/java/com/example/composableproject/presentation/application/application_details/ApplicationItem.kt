@@ -43,14 +43,18 @@ fun ApplicationItem(
             .fillMaxWidth()
             .clickable {
 //                Log.v("ApplicationDetailsScreen","Gson().toJson(application)")
-                Log.v("getApplicationDetails","1 applicationId ${application.id}")
+                Log.v("getApplicationDetails", "1 applicationId ${application.id}")
                 navController.navigate("applicationDetailScreen/${application.id}")
-                       },
+            },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor =
+                when (application.archivedAt) {
+                    "" -> Color.White
+                    else -> Color.LightGray
+                }
         ),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
 
@@ -58,106 +62,14 @@ fun ApplicationItem(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-
-//            Row(
-//                horizontalArrangement = Arrangement.Absolute.Center,
-//                verticalAlignment = Alignment.CenterVertically,
-//            ){
-////                Text(
-////                    text = application.formType.uppercase(Locale.ROOT),
-////                    style = MaterialTheme.typography.titleLarge,
-////                    color = Color.Black,
-////                    fontWeight = FontWeight.Bold,
-////                )
-////                Column(
-////                    modifier = Modifier
-////                        .padding(16.dp)
-//////                    .fillMaxWidth()
-////                        .align(Alignment.CenterVertically)
-////                ) {
-////                    Text(
-////                        text = application.referenceCode ?: "-",
-////                        style = MaterialTheme.typography.titleLarge,
-////                        color = PrimaryColor,
-////                        fontWeight = FontWeight.Bold,
-////                        lineHeight = 16.sp
-////
-////                    )
-////
-////                    Text(
-////                        text = application.formGroup,
-////                        style = MaterialTheme.typography.titleMedium,
-////                        color = Color.Black,
-////                        lineHeight = 16.sp
-////
-////                    )
-////
-////                    Text(
-////                        text = application.getApplicationTypeAndProcessType(),
-////                        style = MaterialTheme.typography.titleMedium,
-////                        color = Color.Black,
-////                        lineHeight = 16.sp
-////                    )
-////
-////                    Text(
-////                        text = application.getBrandProduct() ,
-////                        style = MaterialTheme.typography.titleMedium,
-////                        color = Color.Black,
-////                        lineHeight = 16.sp
-////
-////                    )
-////
-////                    Text(
-////                        text = application.getSubmissionDateTime() ,
-////                        style = MaterialTheme.typography.titleMedium,
-////                        color = Color.Black,
-////                        lineHeight = 16.sp
-////
-////                    )
-////
-////
-////
-////                    Text(
-////                        text = application.internalStatus,
-////                        style = MaterialTheme.typography.titleMedium,
-////                        color = Color.Black,
-////                        lineHeight = 16.sp
-////                    )
-////
-////                    Text(
-////                        text = application.releaseStatus?: "-",
-////                        style = MaterialTheme.typography.titleMedium,
-////                        lineHeight = 16.sp,
-////                        color = when(application.releaseStatus) {
-////                            "INCOMPLETE" -> Color.Black
-////                            "APPROVED FOR PRODUCTION","APPROVED WITH CAUTION","APPROVED" -> Color.Black
-////                            "DISAPPROVED" -> Color.White
-////                            else -> Color.Black
-////                        },
-////                        modifier = Modifier.background(
-////                            color = when(application.releaseStatus) {
-////                                "INCOMPLETE" -> Color.Yellow
-////                                "APPROVED FOR PRODUCTION","APPROVED WITH CAUTION","APPROVED" -> Color.Green
-////                                "DISAPPROVED" -> Color.Red
-////                                else -> Color.White
-////                            },
-////                            shape = RoundedCornerShape(8.dp)
-////                        ).padding(4.dp)
-////                    )
-////
-////                }
-//
-//            }
-
-
             Column(
                 modifier = Modifier
                     .padding(16.dp)
-//                    .fillMaxWidth()
                     .align(Alignment.CenterVertically)
             ) {
                 Text(
@@ -227,15 +139,17 @@ fun ApplicationItem(
                         "DISAPPROVED" -> Color.White
                         else -> Color.Black
                     },
-                    modifier = Modifier.background(
-                        color = when(applicationStatus) {
-                            "INCOMPLETE" -> Color.Yellow
-                            "APPROVED FOR PRODUCTION","APPROVED WITH CAUTION","APPROVED" -> Color.Green
-                            "DISAPPROVED" -> Color.Red
-                            else -> Color.White
-                        },
-                        shape = RoundedCornerShape(8.dp)
-                    ).padding(4.dp)
+                    modifier = Modifier
+                        .background(
+                            color = when (applicationStatus) {
+                                "INCOMPLETE" -> Color.Yellow
+                                "APPROVED FOR PRODUCTION", "APPROVED WITH CAUTION", "APPROVED" -> Color.Green
+                                "DISAPPROVED" -> Color.Red
+                                else -> Color.White
+                            },
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(4.dp)
                 )
 
             }

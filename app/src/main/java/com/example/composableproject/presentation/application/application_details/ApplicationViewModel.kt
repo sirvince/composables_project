@@ -1,10 +1,9 @@
-package com.example.composableproject.presentation.application
+package com.example.composableproject.presentation.application.application_details
 
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composableproject.data.model.ApplicationFilterDto
 import com.example.composableproject.data.model.DataObject
 import com.example.composableproject.data.dto.PaginationResponse
 import com.example.composableproject.domain.use_case.ApplicationUseCase
@@ -32,14 +31,14 @@ class ApplicationViewModel @Inject constructor(
     val agentsData : StateFlow<List<DataObject>> = _agentsData
 
     init {
-        val applicationFilter = ApplicationFilterDto(
-            applicationType = listOf("ALL"),
-            formGroup =  "ALL",
-            search = "",
-            processType = "ALL",
-            formType = "s1"
-        )
-        onEvent(ApplicationFormEvent.GetApplication(100,1,""))
+//        val applicationFilter = ApplicationFilterDto(
+//            applicationType = listOf("ALL"),
+//            formGroup =  "ALL",
+//            search = "",
+//            processType = "ALL",
+//            formType = "s1"
+//        )
+//        onEvent(ApplicationFormEvent.GetApplication(100,1,""))
     }
 
     fun onEvent(event: ApplicationFormEvent){
@@ -50,13 +49,17 @@ class ApplicationViewModel @Inject constructor(
         }
     }
 
+    fun clearAgentsData() {
+        _agentsData.value = emptyList()
+    }
+
     private fun getApplicationList(event : ApplicationFormEvent.GetApplication) {
         viewModelScope.launch {
             Log.v("vince","getApplicationList on Search ${event.search}")
 
             when(val result = applicationUseCase.application(event.take,event.page,event.search)){
                 is AppResponse.Error<*> -> {
-                    result.message?.let {ValidationEvent.Error(it) }
+                    result.message?.let { ValidationEvent.Error(it) }
                         ?.let { validationChannel.send(it) }
                 }
                 is AppResponse.Success<*> -> {

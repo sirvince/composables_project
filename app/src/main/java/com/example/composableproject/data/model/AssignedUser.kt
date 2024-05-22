@@ -14,6 +14,7 @@ data class AssignedUser (
   @SerializedName("email"     ) var email     : String? = null,
   @SerializedName("status"    ) var status    : Int?    = null,
   @SerializedName("createdAt" ) var createdAt : String? = null,
-  @SerializedName("updatedAt" ) var updatedAt : String? = null
+  @SerializedName("updatedAt" ) var updatedAt : String? = null,
+  @SerializedName("user_type" ) var user_type : Usertype? = null
 
 )
