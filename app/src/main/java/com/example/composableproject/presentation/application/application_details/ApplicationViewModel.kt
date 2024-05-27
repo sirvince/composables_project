@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composableproject.data.model.DataObject
 import com.example.composableproject.data.dto.PaginationResponse
+import com.example.composableproject.database.AppDatabase
+import com.example.composableproject.database.dao.UserDao
+import com.example.composableproject.database.entity.UserInfo
 import com.example.composableproject.domain.use_case.ApplicationUseCase
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson
@@ -20,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ApplicationViewModel @Inject constructor(
-    private val  applicationUseCase: ApplicationUseCase
+    private val  applicationUseCase: ApplicationUseCase,
+    private val userDao: UserDao
 ) : ViewModel() {
 
 //    var state by mutableStateOf(LoginFormState())
@@ -31,14 +35,7 @@ class ApplicationViewModel @Inject constructor(
     val agentsData : StateFlow<List<DataObject>> = _agentsData
 
     init {
-//        val applicationFilter = ApplicationFilterDto(
-//            applicationType = listOf("ALL"),
-//            formGroup =  "ALL",
-//            search = "",
-//            processType = "ALL",
-//            formType = "s1"
-//        )
-//        onEvent(ApplicationFormEvent.GetApplication(100,1,""))
+
     }
 
     fun onEvent(event: ApplicationFormEvent){
