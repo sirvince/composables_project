@@ -1,6 +1,7 @@
 package com.example.composableproject.presentation.application.application_details
 
 import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,9 +44,13 @@ import com.example.composableproject.R
 import com.example.composableproject.component.CenteredImage
 import com.example.composableproject.component.SearchInputTextField
 import com.example.composableproject.presentation.application.SampleData
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabIcon
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabItems
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabOption
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.MultiFloatingActionButton
 import com.example.composableproject.ui.theme.PrimaryColor
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun ApplicationListScreen(
     navController: NavController,
@@ -83,7 +88,6 @@ fun ApplicationListScreen(
 
 
     Scaffold(
-//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
@@ -121,39 +125,19 @@ fun ApplicationListScreen(
 //                scrollBehavior = scrollBehavior
             )
         },
-        bottomBar = {
-//            BottomAppBar(
-//                containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                contentColor = MaterialTheme.colorScheme.primary,
-//            ) {
-//                Text(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    textAlign = TextAlign.Center,
-//                    text = "Bottom app bar",
-//                )
-//            }
-        },
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                onClick = {
-////                    val applicationFilter = ApplicationFilterDto(
-////                        applicationType = listOf("ALL"),
-////                        formGroup =  "ALL",
-////                        search = "",
-////                        processType = "ALL",
-////                        formType = "s1"
-////                    )
-////                    viewModel.onEvent(ApplicationFormEvent.GetApplication(1,1,applicationFilter))
-//                },
-//                containerColor = TertiaryColor
-//            ) {
-//                Icon(
-//                    Icons.Default.Add,
-//                    tint = Color.White,
-//                    contentDescription = "Add"
-//                )
-//            }
-//        }
+        floatingActionButton = {
+            MultiFloatingActionButton(
+                items = FabItems().items,
+                fabIcon = FabIcon(iconRes = R.drawable.ic_edit, iconRotate = 45f),
+                onFabItemClicked = {
+                    Toast.makeText(context, it.label, Toast.LENGTH_SHORT).show()
+                },
+                fabOption = FabOption(
+                    iconTint = Color.White,
+                    showLabel = true
+                )
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
