@@ -1,7 +1,7 @@
 package com.example.composableproject.domain.use_case
 
 import android.util.Log
-import com.example.composableproject.SharedPreferencesManager
+import com.example.composableproject.database.SharedPreferencesManager
 import com.example.composableproject.data.dto.CredentialDto
 import com.example.composableproject.data.dto.LoginResponse
 import com.example.composableproject.data.remote.LoginRepositoryImpl

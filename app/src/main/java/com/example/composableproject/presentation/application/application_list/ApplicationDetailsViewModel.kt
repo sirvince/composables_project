@@ -41,26 +41,21 @@ class ApplicationDetailsViewModel @Inject constructor(
     private fun getApplicationDetails(applicationId : Int) {
         viewModelScope.launch {
 
-            LoggerUtil().logger("ApplicationDetailsScreen","viewModelScope.launch")
             validationChannel.send(ValidationEvent.Loading)
             when(val result = applicationUseCase.applicationDetails(applicationId)){
                 is AppResponse.Error<*> -> {
                     result.message?.let {ValidationEvent.Error(it) }
                         ?.let { validationChannel.send(it) }
 
-                    LoggerUtil().logger("ApplicationDetailsScreen","Error")
-
                 }
                 is AppResponse.Success<*> -> {
                     val data = Gson().fromJson(Gson().toJson(result.data),
                         DataObject::class.java)
                     _agentsData.value = data
-                    LoggerUtil().logger("ApplicationDetailsScreen",Gson().toJson(_agentsData))
                     validationChannel.send(ValidationEvent.Success)
                 }
                 is AppResponse.Loading<*> -> {
                     validationChannel.send(ValidationEvent.Loading)
-                    LoggerUtil().logger("ApplicationDetailsScreen","Loading")
                 }
             }
         }

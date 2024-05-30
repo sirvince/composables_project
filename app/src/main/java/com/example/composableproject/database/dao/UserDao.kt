@@ -11,16 +11,9 @@ interface UserDao {
     @Query("SELECT * FROM userInfo")
     suspend fun getAll(): List<UserInfo>
 
-    @Query("SELECT * FROM userInfo WHERE id IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<UserInfo>
-
-    @Query("SELECT * FROM userInfo WHERE fname LIKE :first AND " +
-           "lname LIKE :last LIMIT 1")
-    fun findByName(first: String, last: String): UserInfo
-
     @Insert
-    suspend  fun insertAll(vararg userInfos: UserInfo)
+    suspend  fun insertAll(userInfos: List<UserInfo>)
 
-    @Delete
-    fun delete(userInfo: UserInfo)
+    @Query("DELETE FROM UserInfo")
+    suspend fun delete()
 }

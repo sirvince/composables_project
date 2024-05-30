@@ -2,6 +2,8 @@ package com.example.composableproject.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.composableproject.data.remote.UserRepository
+import com.example.composableproject.data.remote.UserRepositoryImpl
 import com.example.composableproject.database.AppDatabase
 import com.example.composableproject.database.dao.UserDao
 import com.example.composableproject.database.dao.UserTypeDao
@@ -22,8 +24,9 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "asc-database"
-        ).build()
+            "asc-database")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -35,4 +38,14 @@ object DatabaseModule {
     fun provideUserTypeDao(database: AppDatabase): UserTypeDao {
         return database.userTypeDao()
     }
+
+//    @Provides
+//    @Singleton
+//    fun provideUserRepository(
+//        userRepository: UserRepository,
+//        userDao: UserDao,
+//        userTypeDao: UserTypeDao
+//    ): UserRepository {
+//        return UserRepositoryImpl(userRepository,userDao, userTypeDao)
+//    }
 }

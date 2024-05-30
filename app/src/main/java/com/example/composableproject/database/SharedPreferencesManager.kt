@@ -1,4 +1,4 @@
-package com.example.composableproject
+package com.example.composableproject.database
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,6 +9,7 @@ class SharedPreferencesManager(context: Context) {
 
     companion object {
         private const val TOKEN_KEY = "token_key"
+        private const val FIRST_LOGIN = "isFirstLogin"
     }
 
     // Function to save a token in SharedPreferences
@@ -18,10 +19,21 @@ class SharedPreferencesManager(context: Context) {
         editor.apply()
     }
 
+
+    fun isFirstLogin(isFirstLogin: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(FIRST_LOGIN, isFirstLogin)
+        editor.apply()
+    }
     // Function to retrieve the token from SharedPreferences
     fun getToken(): String? {
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
+
+    fun isFirstLogin(): Boolean {
+        return sharedPreferences.getBoolean(FIRST_LOGIN, false)
+    }
+
 
     // Function to clear the token from SharedPreferences
     fun clearToken() {

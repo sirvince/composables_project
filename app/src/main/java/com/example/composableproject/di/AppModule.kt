@@ -3,19 +3,21 @@ package com.example.composableproject.di
 
 import android.app.Application
 import android.util.Log
-import com.example.composableproject.BuildConfig
-import com.example.composableproject.SharedPreferencesManager
+import com.example.composableproject.database.SharedPreferencesManager
 import com.example.composableproject.data.remote.ApplicationRepository
 import com.example.composableproject.data.remote.ApplicationRepositoryImpl
 import com.example.composableproject.data.remote.AuthRepository
 import com.example.composableproject.data.remote.AuthRepositoryImpl
 import com.example.composableproject.data.remote.LoginRepositoryImpl
 import com.example.composableproject.data.remote.LoginRepository
+import com.example.composableproject.data.remote.UserRepository
+import com.example.composableproject.data.remote.UserRepositoryImpl
+import com.example.composableproject.database.dao.UserDao
 import com.example.composableproject.domain.use_case.ApplicationUseCase
+import com.example.composableproject.domain.use_case.FetchUserInfoUseCase
 import com.example.composableproject.domain.use_case.LoginUseCase
 import com.example.composableproject.domain.use_case.validation.ValidateAgreementTerm
 import com.example.composableproject.domain.use_case.validation.ValidateInputField
-
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -36,16 +38,6 @@ import javax.inject.Singleton
 object AppModule {
 
 
-    @Provides
-    @Singleton
-    fun providesFirebaseAuth() = FirebaseAuth.getInstance()
-
-    @Provides
-    @Singleton
-    fun providesRepositoryImpl(firebaseAuth: FirebaseAuth,appContext : Application) : AuthRepository {
-        Log.v("AppModule","test")
-        return AuthRepositoryImpl(firebaseAuth,appContext)
-    }
 
 
 
@@ -85,55 +77,12 @@ object AppModule {
 
         return Retrofit.Builder()
 //            .baseUrl(BuildConfig.BASE_URL)
-//            .baseUrl("http://192.168.18.15:4300/")
-            .baseUrl("http://192.168.1.24:4300/")
+            .baseUrl("http://192.168.18.15:4300/")
+//            .baseUrl("http://192.168.1.24:4300/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpBuilder)
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun providesLoginService(retrofit: Retrofit) : LoginRepository{
-        return retrofit.create(LoginRepository::class.java)
-    }
-
-
-
-    @Provides
-    @Singleton
-    fun providesApplicationService(retrofit: Retrofit) : ApplicationRepository{
-        return retrofit.create(ApplicationRepository::class.java)
-    }
-
-
-    @Provides
-    fun provideLoginUseCase(loginRepository: LoginRepositoryImpl,sharedPreferencesManager: SharedPreferencesManager): LoginUseCase {
-        return LoginUseCase(loginRepository,sharedPreferencesManager)
-    }
-
-    @Provides
-    fun provideApplicationUseCase(applicationRepository: ApplicationRepositoryImpl): ApplicationUseCase {
-        return ApplicationUseCase(applicationRepository)
-    }
-
-//    @Provides
-//    @Singleton
-//    fun provideApplicationRepository(applicationRepository: ApplicationRepository): ApplicationRepository {
-//        return ApplicationRepositoryImpl(applicationRepository);
-//    }
-
-
-
-//    @Provides
-//    @Singleton
-//    fun providesLoginRepositoryImpl(loginService: LoginService) : LoginService{
-//        return LoginRepositoryImpl(loginService)
-//    }
-
-
-
-
 
 
     @Provides

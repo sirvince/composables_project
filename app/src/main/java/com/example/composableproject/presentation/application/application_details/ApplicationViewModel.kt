@@ -10,6 +10,7 @@ import com.example.composableproject.database.AppDatabase
 import com.example.composableproject.database.dao.UserDao
 import com.example.composableproject.database.entity.UserInfo
 import com.example.composableproject.domain.use_case.ApplicationUseCase
+import com.example.composableproject.domain.use_case.FetchUserInfoUseCase
 import com.example.composableproject.domain.use_case.respose.AppResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ApplicationViewModel @Inject constructor(
     private val  applicationUseCase: ApplicationUseCase,
-    private val userDao: UserDao
+    private val  fetchUserInfoUseCase: FetchUserInfoUseCase
 ) : ViewModel() {
 
 //    var state by mutableStateOf(LoginFormState())
@@ -35,7 +36,10 @@ class ApplicationViewModel @Inject constructor(
     val agentsData : StateFlow<List<DataObject>> = _agentsData
 
     init {
-
+        viewModelScope.launch {
+            fetchUserInfoUseCase.fetchUserInfo()
+         //   fetchUserInfoUseCase.fetchUserType()
+        }
     }
 
     fun onEvent(event: ApplicationFormEvent){

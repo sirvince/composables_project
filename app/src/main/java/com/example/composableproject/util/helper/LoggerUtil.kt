@@ -6,7 +6,7 @@ class LoggerUtil {
 
 
 
-    fun logger( className : String, message : String ){
-        Log.v("mLOG $className" , "message $message")
+    fun logger( className : String,  methodName : String, message : String ){
+        Log.v("mLOG $className" ,"$methodName  $message")
     }
 }

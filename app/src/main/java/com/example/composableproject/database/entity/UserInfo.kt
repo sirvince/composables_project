@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class UserInfo(
     @PrimaryKey val id: Int,
     val fname: String?,
-    val lname: String?
+    val lname: String?,
+    val user_type: Int?
 )

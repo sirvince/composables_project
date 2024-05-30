@@ -68,6 +68,8 @@ class LoginViewModel @Inject constructor(
                 }
                 is AppResponse.Success<*> -> {
                     validationChannel.send(ValidationEvent.Success)
+
+                    // fetch user info and user type
                 }
                 is AppResponse.Loading<*> -> {
                     validationChannel.send(ValidationEvent.Loading)

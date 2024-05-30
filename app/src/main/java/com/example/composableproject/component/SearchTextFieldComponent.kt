@@ -55,7 +55,6 @@ fun SearchInputTextField(
         singleLine = true,
         keyboardActions = KeyboardActions(
             onDone = {
-                LoggerUtil().logger("SearchInputTextField",value)
                 onDone()
             }
         ),

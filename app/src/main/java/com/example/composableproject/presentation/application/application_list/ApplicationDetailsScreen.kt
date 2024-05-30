@@ -68,7 +68,6 @@ fun ApplicationDetailsScreen(
     }
 
     LaunchedEffect(applicationId) {
-        LoggerUtil().logger("ApplicationDetailsScreen","applicationId $applicationId")
         if (applicationId != null) viewModel.loadApplicationData(applicationId)
     }
 
@@ -78,15 +77,12 @@ fun ApplicationDetailsScreen(
             when(event){
                 ApplicationDetailsViewModel.ValidationEvent.Success -> {
                     onFetch = false
-                    LoggerUtil().logger("ApplicationDetailsScreen","ValidationEvent.Success")
                 }
                 ApplicationDetailsViewModel.ValidationEvent.Loading -> {
                     onFetch = true
-                    LoggerUtil().logger("ApplicationDetailsScreen","ValidationEvent.Loading")
                 }
                 is ApplicationDetailsViewModel.ValidationEvent.Error -> {
                     onFetch = false
-                    LoggerUtil().logger("ApplicationDetailsScreen","ValidationEvent.Error")
                     alertDialogState = AlertDialogState(
                         showDialog = true,
                         title = "Login Failed!",
@@ -151,17 +147,14 @@ fun ApplicationDetailsScreen(
         ) {
 
 
-            LoggerUtil().logger("ApplicationDetailsScreen","onFetch $onFetch")
 
             if(!onFetch){
-                LoggerUtil().logger("ApplicationDetailsScreen","if $onFetch")
                 ApplicationInfo(application)
                 ClientInformation(application)
                 ApplicantInformation(application)
                 MaterialInformation(application)
                 DocumentHistory2(application)
             }else{
-                LoggerUtil().logger("ApplicationDetailsScreen","else $onFetch")
 
             }
 

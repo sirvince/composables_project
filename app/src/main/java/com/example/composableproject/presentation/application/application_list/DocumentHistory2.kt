@@ -79,9 +79,7 @@ fun DocumentHistory2(application : DataObject){
                 text = mainDocs,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> mainDocs.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> mainDocs.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -104,9 +102,7 @@ fun DocumentHistory2(application : DataObject){
                 text = supportDocs,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> supportDocs.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> supportDocs.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -130,9 +126,7 @@ fun DocumentHistory2(application : DataObject){
                 text = finalMaterial,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> finalMaterial.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> finalMaterial.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -154,7 +148,6 @@ fun DocumentHistory2(application : DataObject){
                 style = MaterialTheme.typography.titleMedium,
             ){
                 offset -> decisionForm.getStringAnnotations(offset,offset).forEach {
-                    LoggerUtil().logger("ClickableText",it.tag);
                 }
             }
 
@@ -177,9 +170,7 @@ fun DocumentHistory2(application : DataObject){
                 text = stampMaterial,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> stampMaterial.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> stampMaterial.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -201,9 +192,7 @@ fun DocumentHistory2(application : DataObject){
                 text = clearanceForm,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> clearanceForm.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> clearanceForm.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -226,9 +215,7 @@ fun DocumentHistory2(application : DataObject){
                 text = pendingForm,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> pendingForm.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> pendingForm.getStringAnnotations(offset,offset).forEach {}
             }
 
 
@@ -250,9 +237,7 @@ fun DocumentHistory2(application : DataObject){
                 text = revisionForm,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> revisionForm.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> revisionForm.getStringAnnotations(offset,offset).forEach { }
             }
 
 
@@ -274,9 +259,7 @@ fun DocumentHistory2(application : DataObject){
                 text = toaFile,
                 style = MaterialTheme.typography.titleMedium,
             ){
-                    offset -> toaFile.getStringAnnotations(offset,offset).forEach {
-                LoggerUtil().logger("ClickableText",it.tag);
-            }
+                    offset -> toaFile.getStringAnnotations(offset,offset).forEach {}
             }
 
 
