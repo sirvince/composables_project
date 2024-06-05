@@ -9,7 +9,7 @@ import com.example.composableproject.database.entity.UserType
 
 @Database(entities = [
     UserType::class,
-    UserInfo::class], version = 2)
+    UserInfo::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun userTypeDao(): UserTypeDao

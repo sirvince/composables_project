@@ -12,7 +12,7 @@ interface UserTypeDao {
 
 
     @Query("SELECT * FROM usertype")
-    suspend fun getAllUserType(): List<UserInfo>
+    suspend fun getAllUserType(): List<UserType>
 
     @Insert
     suspend  fun insertAllUserType(userTypes: List<UserType>)

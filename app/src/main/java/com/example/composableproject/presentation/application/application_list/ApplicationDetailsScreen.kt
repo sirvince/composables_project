@@ -2,6 +2,8 @@ package com.example.composableproject.presentation.application.application_list
 
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,13 +49,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composableproject.R
 import com.example.composableproject.component.LoadingDialog
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabIcon
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabItems
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabOption
+import com.example.composableproject.presentation.application.application_details.application_edit_menu.MultiFloatingActionButton
 import com.example.composableproject.presentation.login.AlertDialogState
+import com.example.composableproject.route.Route
 import com.example.composableproject.ui.theme.ITEM_SPACING
 import com.example.composableproject.ui.theme.PrimaryColor
 import com.example.composableproject.util.helper.LoggerUtil
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun ApplicationDetailsScreen(
     navController: NavController,
@@ -133,9 +141,27 @@ fun ApplicationDetailsScreen(
                         )
                     }
                 },
+
 //                scrollBehavior = scrollBehavior
             )
         },
+
+        floatingActionButton = {
+            MultiFloatingActionButton(
+                items = FabItems().items,
+                fabIcon = FabIcon(iconRes = R.drawable.ic_edit, iconRotate = 45f),
+                onFabItemClicked = {
+                    Toast.makeText(context, it.label, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Route.ReturnApplicationScreen().name)
+                },
+                fabOption = FabOption(
+                    iconTint = Color.White,
+                    showLabel = true
+                )
+            )
+        }
+
+
 
     ) { innerPadding ->
         Column(

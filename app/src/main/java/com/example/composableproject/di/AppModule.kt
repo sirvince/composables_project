@@ -77,8 +77,8 @@ object AppModule {
 
         return Retrofit.Builder()
 //            .baseUrl(BuildConfig.BASE_URL)
-            .baseUrl("http://192.168.18.15:4300/")
-//            .baseUrl("http://192.168.1.24:4300/")
+//            .baseUrl("http://192.168.18.15:4300/")
+            .baseUrl("http://192.168.1.24:4300/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpBuilder)
             .build()

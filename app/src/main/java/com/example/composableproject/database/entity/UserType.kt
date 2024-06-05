@@ -6,6 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserType(
     @PrimaryKey val id: Int,
-    val type: String?,
     val name: String?
 )

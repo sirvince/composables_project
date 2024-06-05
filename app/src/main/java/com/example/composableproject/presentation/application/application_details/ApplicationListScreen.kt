@@ -1,7 +1,6 @@
 package com.example.composableproject.presentation.application.application_details
 
 import android.widget.Toast
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,23 +41,14 @@ import androidx.navigation.NavController
 import com.example.composableproject.R
 import com.example.composableproject.component.CenteredImage
 import com.example.composableproject.component.SearchInputTextField
-import com.example.composableproject.presentation.application.SampleData
-import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabIcon
-import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabItems
-import com.example.composableproject.presentation.application.application_details.application_edit_menu.FabOption
-import com.example.composableproject.presentation.application.application_details.application_edit_menu.MultiFloatingActionButton
 import com.example.composableproject.ui.theme.PrimaryColor
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationListScreen(
     navController: NavController,
     viewModel: ApplicationViewModel = hiltViewModel()
 ){
-    val memberList = remember {
-        SampleData.applicationList
-    }
-
 
     val ( search , setSearch ) = rememberSaveable {
         mutableStateOf("")
@@ -125,19 +114,6 @@ fun ApplicationListScreen(
 //                scrollBehavior = scrollBehavior
             )
         },
-        floatingActionButton = {
-            MultiFloatingActionButton(
-                items = FabItems().items,
-                fabIcon = FabIcon(iconRes = R.drawable.ic_edit, iconRotate = 45f),
-                onFabItemClicked = {
-                    Toast.makeText(context, it.label, Toast.LENGTH_SHORT).show()
-                },
-                fabOption = FabOption(
-                    iconTint = Color.White,
-                    showLabel = true
-                )
-            )
-        }
     ) { innerPadding ->
         Column(
             modifier = Modifier

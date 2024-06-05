@@ -6,6 +6,7 @@ import com.example.composableproject.data.remote.AuthRepository
 import com.example.composableproject.data.remote.AuthRepositoryImpl
 import com.example.composableproject.data.remote.LoginRepository
 import com.example.composableproject.data.remote.UserRepository
+import com.example.composableproject.data.remote.UserTypeRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -47,5 +48,12 @@ object RepositoryModule {
     @Singleton
     fun providesUserService(retrofit: Retrofit) : UserRepository {
         return retrofit.create(UserRepository::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesUserTypeService(retrofit: Retrofit) : UserTypeRepository {
+        return retrofit.create(UserTypeRepository::class.java)
     }
 }

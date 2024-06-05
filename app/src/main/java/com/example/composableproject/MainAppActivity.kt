@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.composableproject.presentation.application.action.return_application.ReturnApplication
 import com.example.composableproject.presentation.application.application_details.ApplicationListScreen
 import com.example.composableproject.presentation.application.application_list.ApplicationDetailsScreen
 import com.example.composableproject.route.Route
@@ -62,6 +63,10 @@ fun Navigation(){
         composable(Route.MenuScreen().name){
             MenuScreen(navController = navController)
         }
+
+        composable(Route.ReturnApplicationScreen().name){
+            ReturnApplication()
+        }
         composable(Route.ApplicationListScreen().name){
             ApplicationListScreen(navController = navController)
         }
@@ -84,10 +89,6 @@ fun Navigation(){
             arguments = listOf(navArgument("applicationId") { type = NavType.IntType }))
         {backStackEntry ->
             val applicationId = backStackEntry.arguments?.getInt("applicationId")
-            Log.v("ApplicationDetailsScreen","ApplicationDetailsScreen $applicationId")
-//            val sharedViewModel: SharedViewModel = hiltViewModel()
-//            applicationId?.let { sharedViewModel.setParameter(it) }
-//            ApplicationDetailScreen(sharedViewModel)
             ApplicationDetailsScreen(navController = navController)
         }
     }

@@ -45,38 +45,31 @@ class FetchUserInfoUseCase @Inject constructor(
     }
 
 
+    suspend fun fetchUserInfoFromLocal (): Any {
+        return try {
+            val response = userRepository.fetchUserInfo()
+            if (response.isSuccessful) {
+                val listType = object : TypeToken<List<UserInfo>>(){}.type
+                val userInfoList: List<UserInfo> = Gson().fromJson(Gson().toJson(response.body()!!.data), listType)
+                saveUserInfoToLocal(userInfoList)
+                AppResponse.Success(response.body())
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (errorBody != null) {
+                    LoggerUtil().logger("FetchUserInfoUseCase","fetchUserInfo ERROR " , errorBody)
+                }
+                AppResponse.Error(errorBody.toString(),"Failed",)
+            }
+        } catch (e: Exception) {
+            LoggerUtil().logger("FetchUserInfoUseCase","fetchUserInfo Exception" , e.message.toString())
+            AppResponse.Error(e.message.toString(),"Exception")
+        }
+    }
 
 
 
-//    suspend fun fetchUserType (): Any {
-//        return try {
-//            val response = userRepository.fetchUserType()
-//            if (response.isSuccessful) {
-//                val listType = object : TypeToken<List<UserType>>(){}.type
-//                val userTypeList: List<UserType> = Gson().fromJson(Gson().toJson(response.body()!!.data), listType)
-//                saveUserTypeToLocal(userTypeList)
-//                AppResponse.Success(response.body())
-//            } else {
-//                val errorBody = response.errorBody()?.string()
-//                if (errorBody != null) {
-//                    LoggerUtil().logger("FetchUserInfoUseCase","fetchUserType ERROR " , errorBody)
-//                }
-//                AppResponse.Error(errorBody.toString(),"Failed",)
-//            }
-//        } catch (e: Exception) {
-//            LoggerUtil().logger("FetchUserInfoUseCase","fetchUserType Exception" , e.message.toString())
-//            AppResponse.Error(e.message.toString(),"Exception")
-//        }
-//    }
-//
-//
-//    private suspend fun saveUserTypeToLocal (userTypeList: List<UserType>): Any {
-//        return try {
-//            userRepository.deleteAllUserType()
-//            userRepository.insertAllUserType(userTypeList)
-//        } catch (e: Exception) {
-//            LoggerUtil().logger("FetchUserInfoUseCase","saveUserTypeToLocal Exception" ,  e.message.toString())
-//        }
-//    }
+
+
+
 
 }
